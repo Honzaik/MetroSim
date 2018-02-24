@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace MetroSim
 {
-    public partial class Form1 : Form
+    public partial class MainGUI : Form
     {
-        public Form1()
+        public MainGUI()
         {
             InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

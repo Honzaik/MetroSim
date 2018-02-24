@@ -20,7 +20,7 @@ B, Jinonice, 19.3
 B, Nové Butovice, 20.7
 B, Hůrka, 21.3
 B, Lužiny, 22.5
-B, Luka, 23.2,
+B, Luka, 23.2
 B, Stodůlky, 24.3
 B, Zličín, 25.7, 0, 1
 ########################
@@ -40,7 +40,7 @@ C, Florenc, 11.9, 1
 C, Vltavská, 13.1
 C, Nádraží Holešovice, 14.1
 C, Kobylisy, 16.9
-C, Ládví, 18,
+C, Ládví, 18
 C, Střížkov, 19.6
 C, Prosek, 20.6
 C, Letňany, 22.4, 0, 1

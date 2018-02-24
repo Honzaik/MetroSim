@@ -29,45 +29,51 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainGUI));
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.cZacatek = new System.Windows.Forms.ComboBox();
+            this.cKonec = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
-            // comboBox1
+            // cZacatek
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(212, 183);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 0;
+            this.cZacatek.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cZacatek.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.cZacatek.FormattingEnabled = true;
+            this.cZacatek.Location = new System.Drawing.Point(150, 180);
+            this.cZacatek.Name = "cZacatek";
+            this.cZacatek.Size = new System.Drawing.Size(250, 31);
+            this.cZacatek.TabIndex = 0;
             // 
-            // comboBox2
+            // cKonec
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(616, 182);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 21);
-            this.comboBox2.TabIndex = 1;
+            this.cKonec.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cKonec.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cKonec.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.cKonec.FormattingEnabled = true;
+            this.cKonec.Location = new System.Drawing.Point(600, 180);
+            this.cKonec.Name = "cKonec";
+            this.cKonec.Size = new System.Drawing.Size(250, 31);
+            this.cKonec.TabIndex = 1;
             // 
             // MainGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1098, 601);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.comboBox1);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(1084, 561);
+            this.Controls.Add(this.cKonec);
+            this.Controls.Add(this.cZacatek);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainGUI";
             this.Text = "MetroSim";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.MainGUI_load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox cZacatek;
+        private System.Windows.Forms.ComboBox cKonec;
     }
 }
 

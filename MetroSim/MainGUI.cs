@@ -1,5 +1,4 @@
-﻿using MetroSim.classes;
-using System;
+﻿using System;
 using System.Windows.Forms;
 
 namespace MetroSim
@@ -14,10 +13,20 @@ namespace MetroSim
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void MainGUI_load(object sender, EventArgs e)
         {
             model = new Model();
             model.init();
+            vyplnDropdown();
+        }
+
+        private void vyplnDropdown()
+        {
+            foreach(Stanice s in model.getSeznamStanic())
+            {
+                cZacatek.Items.Add(s.jmeno + " (" + s.pismeno + ")");
+                cKonec.Items.Add(s.jmeno + " (" + s.pismeno + ")");
+            }
         }
 
     }

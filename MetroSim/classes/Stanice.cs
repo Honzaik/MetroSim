@@ -66,10 +66,47 @@ namespace MetroSim.classes
             Console.WriteLine("---------");
             for (int i = 0; i < sousedi.Count; i++)
             {
-                Console.WriteLine(sousedi[i].jmeno + " vzdalenost: " + vzdalenostOdSouseda(i));
+                Console.WriteLine(sousedi[i].jmeno + "(" + sousedi[i].id + ") vzdalenost: " + vzdalenostOdSouseda(i));
             }
             Console.WriteLine("---------");
         }
+
+        public void najdiSousedy(List<Stanice> seznamStanic)
+        {
+            int pocetSousedu = 2;
+            if (jeKonecna)
+            {
+                pocetSousedu--;
+            }
+            for (int i = 0; i < pocetSousedu; i++)
+            {
+                Stanice novySoused = null;
+                foreach (Stanice s in seznamStanic)
+                {
+                    if ((s.pismeno == pismeno) &&
+                        (s.id != id) &&
+                        (!jeSoused(s)) &&
+                        (novySoused == null || (Math.Abs(kilometr - s.kilometr) < Math.Abs(kilometr - novySoused.kilometr))))
+                    {
+                        novySoused = s;
+                    }
+                }
+                pridejSouseda(novySoused);
+            }
+            if (jePrestupni)
+            {
+                Stanice novySoused = null;
+                foreach (Stanice s in seznamStanic)
+                {
+                    if ((s.id != id) && s.jmeno == jmeno)
+                    {
+                        novySoused = s;
+                    }
+                }
+                pridejSouseda(novySoused);
+            }
+        }
+
 
     }
 }

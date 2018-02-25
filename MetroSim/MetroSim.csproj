@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="classes\Model.cs" />
+    <Compile Include="classes\Pasazer.cs" />
     <Compile Include="classes\SettingsLoader.cs" />
     <Compile Include="classes\Stanice.cs" />
     <Compile Include="MainGUI.cs">

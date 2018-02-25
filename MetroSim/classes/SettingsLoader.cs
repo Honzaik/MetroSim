@@ -8,9 +8,9 @@ namespace MetroSim
     class SettingsLoader
     {
 
-        public static List<Stanice> nactiNastaveni(string path)
+        public static SortedList<string, Stanice> nactiNastaveni(string path)
         {
-            List<Stanice> seznamStanic = new List<Stanice>();
+            SortedList<string, Stanice> seznamStanic = new SortedList<string, Stanice>();
             StreamReader sr = new StreamReader(path);
             string line;
             while((line = sr.ReadLine()) != null)
@@ -23,14 +23,16 @@ namespace MetroSim
                     float kilometr = float.Parse(data[2], CultureInfo.InvariantCulture);
                     bool jePrestupni = false;
                     bool jeKonecna = false;
+                    string prestupniPismeno = "x";
                     if(data.Length > 3)
                     {
                         try
                         {
-                            jePrestupni = (Int32.Parse(data[3]) == 1);
-                            if (data.Length == 5)
+                            jeKonecna = (Int32.Parse(data[3]) == 1);
+                            if (data.Length == 6)
                             {
-                                jeKonecna = (Int32.Parse(data[4]) == 1);
+                                jePrestupni = (Int32.Parse(data[4]) == 1);
+                                prestupniPismeno = data[5].Trim();
                             }
                         } catch (FormatException)
                         {
@@ -38,8 +40,8 @@ namespace MetroSim
                         }                        
                     }
                     string id = pismeno + jmeno.Substring(0, 2);
-                    Stanice stanice = new Stanice(id, pismeno, jmeno, kilometr, jePrestupni, jeKonecna);
-                    seznamStanic.Add(stanice);
+                    Stanice stanice = new Stanice(id, pismeno, jmeno, kilometr, jeKonecna, jePrestupni, prestupniPismeno);
+                    seznamStanic.Add(id, stanice);
                 }
             }
             return seznamStanic;

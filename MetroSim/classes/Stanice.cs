@@ -13,17 +13,19 @@ namespace MetroSim
         public bool jePrestupni;
         public float kilometr;
         public string pismeno;
+        public string prestupniPismeno;
 
         private List<Stanice> sousedi;
 
-        public Stanice(string id, string pismeno, string jmeno, float kilometr, bool jePrestupni, bool jeKonecna)
+        public Stanice(string id, string pismeno, string jmeno, float kilometr, bool jeKonecna, bool jePrestupni, string prestupniPismeno)
         {
             this.id = id;
             this.pismeno = pismeno;
             this.jmeno = jmeno;
             this.kilometr = kilometr;
-            this.jePrestupni = jePrestupni;
             this.jeKonecna = jeKonecna;
+            this.jePrestupni = jePrestupni;
+            this.prestupniPismeno = prestupniPismeno;
             sousedi = new List<Stanice>();
         }
 
@@ -47,11 +49,16 @@ namespace MetroSim
             return (sousedi.IndexOf(stanice) > -1);
         }
 
+        public string getComboBoxName()
+        {
+            return jmeno + " (" + pismeno + ")";
+        }
+
 
         public float vzdalenostOdSouseda(int index) // index = 0 - levý soused (mensi km); index = 1 - pravý soused, index = 2 - prestupni
         {
             Stanice soused = sousedi.ElementAt(index);
-            if (soused.jmeno == jmeno)
+            if (soused.jmeno.Equals(jmeno))
             {
                 return 0;
             }
@@ -71,7 +78,7 @@ namespace MetroSim
             Console.WriteLine("---------");
         }
 
-        public void najdiSousedy(List<Stanice> seznamStanic)
+        public void najdiSousedy(SortedList<string, Stanice> seznamStanic)
         {
             int pocetSousedu = 2;
             if (jeKonecna)
@@ -83,8 +90,8 @@ namespace MetroSim
                 Stanice novySoused = null;
                 foreach (Stanice s in seznamStanic)
                 {
-                    if ((s.pismeno == pismeno) &&
-                        (s.id != id) &&
+                    if ((s.pismeno.Equals(pismeno)) &&
+                        (!s.id.Equals(id)) &&
                         (!jeSoused(s)) &&
                         (novySoused == null || (Math.Abs(kilometr - s.kilometr) < Math.Abs(kilometr - novySoused.kilometr))))
                     {
@@ -98,7 +105,7 @@ namespace MetroSim
                 Stanice novySoused = null;
                 foreach (Stanice s in seznamStanic)
                 {
-                    if ((s.id != id) && s.jmeno == jmeno)
+                    if ((!s.id.Equals(id)) && s.jmeno.Equals(jmeno))
                     {
                         novySoused = s;
                     }

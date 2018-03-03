@@ -14,8 +14,8 @@ namespace MetroSim
         public string pismeno;
         public string prestupniPismeno;
 
-        private Queue<Pasazer> nastupiste1;
-        private Queue<Pasazer> nastupiste2;
+        private Queue<Pasazer> nastupisteVice;
+        private Queue<Pasazer> nastupisteMene;
         private List<Stanice> sousedi;
 
         public Stanice(string id, string pismeno, string jmeno, float kilometr, bool jeKonecna, bool jePrestupni, string prestupniPismeno)
@@ -28,8 +28,8 @@ namespace MetroSim
             this.jePrestupni = jePrestupni;
             this.prestupniPismeno = prestupniPismeno;
             sousedi = new List<Stanice>();
-            nastupiste1 = new Queue<Pasazer>();
-            nastupiste2 = new Queue<Pasazer>();
+            nastupisteVice = new Queue<Pasazer>(); //smer vice kilometru
+            nastupisteMene = new Queue<Pasazer>(); //smer mene kilometru
         }
 
         public void pridejSouseda(Stanice soused)
@@ -119,7 +119,25 @@ namespace MetroSim
 
         public void zaradNaNastupiste(Pasazer p, Stanice pristi)
         {
-            Console.WriteLine("pasazer " + p.id + " zařazen do fronty, jede do stanice " + pristi.id);
+            
+            if (pismeno.Equals(pristi.pismeno))
+            {
+                if(pristi.kilometr > kilometr)
+                {
+                    nastupisteVice.Enqueue(p);
+                    Console.WriteLine("pasazer " + p.id + " zařazen do fronty VICE, jede do stanice " + pristi.id);
+                }
+                else
+                {
+                    nastupisteMene.Enqueue(p);
+                    Console.WriteLine("pasazer " + p.id + " zařazen do fronty MENE, jede do stanice " + pristi.id);
+                }
+            }
+            else
+            {
+                Console.WriteLine("CHYBAAA");
+                System.Environment.Exit(1);
+            }
         }
     }
 }

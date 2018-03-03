@@ -51,6 +51,7 @@
     <Compile Include="classes\Pasazer.cs" />
     <Compile Include="classes\Proces.cs" />
     <Compile Include="classes\SettingsLoader.cs" />
+    <Compile Include="classes\Souprava.cs" />
     <Compile Include="classes\Stanice.cs" />
     <Compile Include="classes\TypUdalosti.cs" />
     <Compile Include="classes\Udalost.cs" />

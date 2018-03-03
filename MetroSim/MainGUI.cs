@@ -46,6 +46,7 @@ namespace MetroSim
             {
                 Console.WriteLine("chyba");
             }
+            model.spawniSoupravy();
             Thread vypocetTh = new Thread(model.spocitej);
             vypocetTh.Start();
         }

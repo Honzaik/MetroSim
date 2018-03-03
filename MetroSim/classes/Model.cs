@@ -9,6 +9,7 @@ namespace MetroSim
 
         private SortedList<string, Stanice> seznamStanic;
         private SortedList<int, Pasazer> seznamPasazeru;
+        private SortedList<string, Souprava> seznamSouprav;
         private string settingsPath = "files/stanice.txt";
         private Kalendar kalendar;
         private int cas;
@@ -42,6 +43,14 @@ namespace MetroSim
             stanice1.vypisSousedy();
 
             seznamPasazeru = new SortedList<int, Pasazer>();
+            seznamSouprav = new SortedList<string, Souprava>();
+
+            Souprava s = new Souprava(this, "A", true, 0.1f, 40, seznamStanic["ANem"]);
+            seznamSouprav.Add("A1", s);
+            s = new Souprava(this, "B", true, 0.1f, 40, seznamStanic["BČer"]);
+            seznamSouprav.Add("B1", s);
+            s = new Souprava(this, "C", true, 0.1f, 40, seznamStanic["CHáj"]);
+            seznamSouprav.Add("C1", s);
         }
 
         private void najdiSousedy()
@@ -65,6 +74,14 @@ namespace MetroSim
             kalendar.pridejUdalost(prichodPrvnihoPasazera);
         }
 
+        public void spawniSoupravy()
+        {
+            foreach(KeyValuePair<string, Souprava> k in seznamSouprav)
+            {
+                kalendar.pridejUdalost(new Udalost(cas, k.Value, TypUdalosti.prijezdDoStanice));
+            }
+        }
+
         public void spocitej()
         {
             while (!kalendar.jePrazdny())
@@ -78,14 +95,19 @@ namespace MetroSim
             gui.finished(vysledek);
         }
 
-        public void pridejDoKalendar(Udalost u)
+        public void pridejDoKalendare(Udalost u)
         {
             kalendar.pridejUdalost(u);
         }
 
-        public void odeberZKalendar(int kdy, Proces kdo, TypUdalosti co)
+        public void odeberZKalendare(int kdy, Proces kdo, TypUdalosti co)
         {
             kalendar.odeberUdalost(kdy, kdo, co);
+        }
+
+        public int getCas()
+        {
+            return cas;
         }
     }
 }

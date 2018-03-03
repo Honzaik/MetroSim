@@ -153,10 +153,9 @@ namespace MetroSim
                 Udalost zpracovavanaUdalost = kalendar.vratNejaktualnejsi();
                 cas = zpracovavanaUdalost.kdy;
                 (zpracovavanaUdalost.kdo).zpracuj(zpracovavanaUdalost);
-                cas++;
                 if (cas > 300) break;
             }
-            vysledek = cas - 1;
+            vysledek = cas;
             gui.finished(vysledek);
         }
 

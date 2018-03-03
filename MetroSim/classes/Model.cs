@@ -9,26 +9,35 @@ namespace MetroSim
 
         private SortedList<string, Stanice> seznamStanic;
         private SortedList<int, Pasazer> seznamPasazeru;
-        private string settingsPath = "files/stanice.txt"; 
+        private string settingsPath = "files/stanice.txt";
+        private Kalendar kalendar;
+        private int cas;
+        public int vysledek;
+        private MainGUI gui;
 
-        public Model()
+        public Model(MainGUI gui)
         {
-
+            this.gui = gui;
         }
 
-        public Model(string settingsPath)
+        public Model(MainGUI gui, string settingsPath)
         {
+            this.gui = gui;
             this.settingsPath = settingsPath;
         }
 
         public void init()
         {
-            seznamStanic = SettingsLoader.nactiNastaveni(settingsPath);
+            cas = 0;
+            vysledek = -1;
+            kalendar = new Kalendar();
+
+            seznamStanic = SettingsLoader.nactiNastaveni(settingsPath, this);
             Console.WriteLine("Načteno " + seznamStanic.Count + " stanic");
 
             najdiSousedy();
 
-            Stanice stanice1 = seznamStanic[9];
+            Stanice stanice1 = seznamStanic.Values[9];
             Console.WriteLine(stanice1.id + " " + stanice1.jmeno + " pocet: " + stanice1.pocetSousedu());
             stanice1.vypisSousedy();
 
@@ -50,8 +59,33 @@ namespace MetroSim
 
         public void pridejHlavnihoPasazera(Stanice zacatek, Stanice konec, int start)
         {
-            Pasazer hlavni = new Pasazer(0, zacatek, konec, start);
+            Pasazer hlavni = new Pasazer(this, "0", zacatek, konec, start);
             seznamPasazeru.Add(seznamPasazeru.Count, hlavni);
+            Udalost prichodPrvnihoPasazera = new Udalost(cas, hlavni, TypUdalosti.prichodDoStanice);
+            kalendar.pridejUdalost(prichodPrvnihoPasazera);
+        }
+
+        public void spocitej()
+        {
+            while (!kalendar.jePrazdny())
+            {
+                Udalost zpracovavanaUdalost = kalendar.vratNejaktualnejsi();
+                cas = zpracovavanaUdalost.kdy;
+                (zpracovavanaUdalost.kdo).zpracuj(zpracovavanaUdalost);
+                cas++;
+            }
+            vysledek = cas;
+            gui.finished(vysledek);
+        }
+
+        public void pridejDoKalendar(Udalost u)
+        {
+            kalendar.pridejUdalost(u);
+        }
+
+        public void odeberZKalendar(int kdy, Proces kdo, TypUdalosti co)
+        {
+            kalendar.odeberUdalost(kdy, kdo, co);
         }
     }
 }

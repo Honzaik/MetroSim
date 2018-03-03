@@ -45,10 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="classes\CustomCBItem.cs" />
+    <Compile Include="classes\Kalendar.cs" />
     <Compile Include="classes\Model.cs" />
     <Compile Include="classes\Pasazer.cs" />
+    <Compile Include="classes\Proces.cs" />
     <Compile Include="classes\SettingsLoader.cs" />
     <Compile Include="classes\Stanice.cs" />
+    <Compile Include="classes\TypUdalosti.cs" />
+    <Compile Include="classes\Udalost.cs" />
     <Compile Include="MainGUI.cs">
       <SubType>Form</SubType>
     </Compile>

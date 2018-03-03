@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace MetroSim
 {
@@ -16,7 +17,7 @@ namespace MetroSim
 
         private void MainGUI_load(object sender, EventArgs e)
         {
-            model = new Model();
+            model = new Model(this);
             model.init();
             vyplnDropdown();
         }
@@ -26,7 +27,7 @@ namespace MetroSim
             foreach(KeyValuePair<string, Stanice> k in model.getSeznamStanic())
             {
                 cZacatek.Items.Add(new CustomCBItem(k.Value.jmeno + " (" + k.Value.pismeno + ")", k.Key));
-                cZacatek.Items.Add(new CustomCBItem(k.Value.jmeno + " (" + k.Value.pismeno + ")", k.Key));
+                cKonec.Items.Add(new CustomCBItem(k.Value.jmeno + " (" + k.Value.pismeno + ")", k.Key));
             }
             cZacatek.SelectedIndex = 0;
             cKonec.SelectedIndex = 0;
@@ -34,10 +35,8 @@ namespace MetroSim
 
         private void bStart_Click(object sender, EventArgs e)
         {
-            Stanice zacatek;
-            Stanice konec;
-            model.getSeznamStanic().TryGetValue((string) cZacatek.SelectedValue, out zacatek);
-            model.getSeznamStanic().TryGetValue((string)cZacatek.SelectedValue, out konec);
+            Stanice zacatek = model.getSeznamStanic()[(string)((CustomCBItem)cZacatek.SelectedItem).Value];
+            Stanice konec = model.getSeznamStanic()[(string)((CustomCBItem)cKonec.SelectedItem).Value];
 
             if (zacatek != null && konec != null)
             {
@@ -47,7 +46,13 @@ namespace MetroSim
             {
                 Console.WriteLine("chyba");
             }
-            
+            Thread vypocetTh = new Thread(model.spocitej);
+            vypocetTh.Start();
+        }
+
+        public void finished(int vysledek)
+        {
+            Console.WriteLine("konec " + vysledek);
         }
     }
 }

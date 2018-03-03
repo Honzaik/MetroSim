@@ -6,7 +6,6 @@ namespace MetroSim
 {
     class Stanice
     {
-
         public string id;
         public string jmeno;
         public bool jeKonecna;
@@ -15,6 +14,8 @@ namespace MetroSim
         public string pismeno;
         public string prestupniPismeno;
 
+        private Queue<Pasazer> nastupiste1;
+        private Queue<Pasazer> nastupiste2;
         private List<Stanice> sousedi;
 
         public Stanice(string id, string pismeno, string jmeno, float kilometr, bool jeKonecna, bool jePrestupni, string prestupniPismeno)
@@ -27,6 +28,8 @@ namespace MetroSim
             this.jePrestupni = jePrestupni;
             this.prestupniPismeno = prestupniPismeno;
             sousedi = new List<Stanice>();
+            nastupiste1 = new Queue<Pasazer>();
+            nastupiste2 = new Queue<Pasazer>();
         }
 
         public void pridejSouseda(Stanice soused)
@@ -88,14 +91,14 @@ namespace MetroSim
             for (int i = 0; i < pocetSousedu; i++)
             {
                 Stanice novySoused = null;
-                foreach (Stanice s in seznamStanic)
+                foreach (KeyValuePair<string, Stanice> k in seznamStanic)
                 {
-                    if ((s.pismeno.Equals(pismeno)) &&
-                        (!s.id.Equals(id)) &&
-                        (!jeSoused(s)) &&
-                        (novySoused == null || (Math.Abs(kilometr - s.kilometr) < Math.Abs(kilometr - novySoused.kilometr))))
+                    if ((k.Value.pismeno.Equals(pismeno)) &&
+                        (!k.Value.id.Equals(id)) &&
+                        (!jeSoused(k.Value)) &&
+                        (novySoused == null || (Math.Abs(kilometr - k.Value.kilometr) < Math.Abs(kilometr - novySoused.kilometr))))
                     {
-                        novySoused = s;
+                        novySoused = k.Value;
                     }
                 }
                 pridejSouseda(novySoused);
@@ -103,17 +106,20 @@ namespace MetroSim
             if (jePrestupni)
             {
                 Stanice novySoused = null;
-                foreach (Stanice s in seznamStanic)
+                foreach (KeyValuePair<string, Stanice> k in seznamStanic)
                 {
-                    if ((!s.id.Equals(id)) && s.jmeno.Equals(jmeno))
+                    if ((!k.Value.id.Equals(id)) && k.Value.jmeno.Equals(jmeno))
                     {
-                        novySoused = s;
+                        novySoused = k.Value;
                     }
                 }
                 pridejSouseda(novySoused);
             }
         }
 
-
+        public void zaradNaNastupiste(Pasazer p, Stanice pristi)
+        {
+            Console.WriteLine("pasazer " + p.id + " zařazen do fronty, jede do stanice " + pristi.id);
+        }
     }
 }

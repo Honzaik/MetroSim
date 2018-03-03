@@ -8,7 +8,7 @@ namespace MetroSim
     class SettingsLoader
     {
 
-        public static SortedList<string, Stanice> nactiNastaveni(string path)
+        public static SortedList<string, Stanice> nactiNastaveni(string path, Model model)
         {
             SortedList<string, Stanice> seznamStanic = new SortedList<string, Stanice>();
             StreamReader sr = new StreamReader(path);
@@ -39,7 +39,7 @@ namespace MetroSim
                             Console.Error.WriteLine("chybný vstup: '" + line + "'");
                         }                        
                     }
-                    string id = pismeno + jmeno.Substring(0, 2);
+                    string id = pismeno + jmeno.Substring(0, 3);
                     Stanice stanice = new Stanice(id, pismeno, jmeno, kilometr, jeKonecna, jePrestupni, prestupniPismeno);
                     seznamStanic.Add(id, stanice);
                 }

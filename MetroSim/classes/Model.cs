@@ -10,6 +10,8 @@ namespace MetroSim
         private SortedList<string, Stanice> seznamStanic;
         private SortedList<int, Pasazer> seznamPasazeru;
         private SortedList<string, Souprava> seznamSouprav;
+        private SortedList<string, Stanice[]> konecneStanice;
+        private int[] pocetSouprav;
         private string settingsPath = "files/stanice.txt";
         private Kalendar kalendar;
         private int cas;
@@ -34,23 +36,83 @@ namespace MetroSim
             kalendar = new Kalendar();
 
             seznamStanic = SettingsLoader.nactiNastaveni(settingsPath, this);
+
             Console.WriteLine("Načteno " + seznamStanic.Count + " stanic");
+
+            setKonecneStanice();
+
+            vypisKonecneStanice();
+
+            vytvorPocatecniSoupravy(0.3f, 40);
 
             najdiSousedy();
 
-            Stanice stanice1 = seznamStanic.Values[9];
-            Console.WriteLine(stanice1.id + " " + stanice1.jmeno + " pocet: " + stanice1.pocetSousedu());
-            stanice1.vypisSousedy();
-
             seznamPasazeru = new SortedList<int, Pasazer>();
-            seznamSouprav = new SortedList<string, Souprava>();
 
-            Souprava s = new Souprava(this, "A", true, 0.1f, 40, seznamStanic["ANem"]);
-            seznamSouprav.Add("A1", s);
-            s = new Souprava(this, "B", true, 0.1f, 40, seznamStanic["BČer"]);
-            seznamSouprav.Add("B1", s);
-            s = new Souprava(this, "C", true, 0.1f, 40, seznamStanic["CHáj"]);
-            seznamSouprav.Add("C1", s);
+        }
+
+        private void vytvorPocatecniSoupravy(float rychlost, int kapacita)
+        {
+            seznamSouprav = new SortedList<string, Souprava>();
+            pocetSouprav = new int[konecneStanice.Count];
+            Souprava s = null;
+            int index = 0;
+            foreach (KeyValuePair<string, Stanice[]> k in konecneStanice)
+            {
+                s = new Souprava(this, k.Key + pocetSouprav[index], k.Key, true, rychlost, kapacita, 5, k.Value[0]); //souprava na pocatecni stanici
+                seznamSouprav.Add(k.Key + pocetSouprav[index], s);
+                pocetSouprav[index]++;
+                s = new Souprava(this, k.Key + pocetSouprav[index], k.Key, false, rychlost, kapacita, 5, k.Value[1]); //souprava na konci v protismeru
+                seznamSouprav.Add(k.Key + pocetSouprav[index], s);
+                pocetSouprav[index]++;
+                index++;
+            }
+        }
+
+        private void setKonecneStanice()
+        {
+            konecneStanice = new SortedList<string, Stanice[]>();
+            foreach (KeyValuePair<string, Stanice> k in seznamStanic)
+            {
+                if (k.Value.jeKonecna)
+                {
+                    if (konecneStanice.ContainsKey(k.Value.pismeno)) //uz je najita jedna konecna stanice
+                    {
+                        Stanice[] stanice = konecneStanice[k.Value.pismeno];
+                        if(stanice[0] == null)
+                        {
+                            stanice[0] = k.Value;
+                        }
+                        else
+                        {
+                            stanice[1] = k.Value;
+                        }
+                    }
+                    else
+                    {
+                        Stanice[] stanice = new Stanice[2];
+                        if(k.Value.kilometr == 0)
+                        {
+                            stanice[0] = k.Value;
+                        }
+                        else
+                        {
+                            stanice[1] = k.Value;
+                        }
+                        konecneStanice.Add(k.Value.pismeno, stanice);
+                    }
+                }
+            }
+        }
+
+        private void vypisKonecneStanice()
+        {
+            Console.WriteLine("#############");
+            Console.WriteLine("konecne stanice");
+            foreach (KeyValuePair<string, Stanice[]> k in konecneStanice)
+            {
+                Console.WriteLine(k.Key + ": " + k.Value[0].id + " a " + k.Value[1].id);
+            }
         }
 
         private void najdiSousedy()
@@ -90,6 +152,7 @@ namespace MetroSim
                 cas = zpracovavanaUdalost.kdy;
                 (zpracovavanaUdalost.kdo).zpracuj(zpracovavanaUdalost);
                 cas++;
+                if (cas > 200) break;
             }
             vysledek = cas;
             gui.finished(vysledek);

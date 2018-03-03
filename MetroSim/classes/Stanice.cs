@@ -58,7 +58,7 @@ namespace MetroSim
         }
 
 
-        public float vzdalenostOdSouseda(int index) // index = 0 - levý soused (mensi km); index = 1 - pravý soused, index = 2 - prestupni
+        public float vzdalenostOdSouseda(int index) // index = 0 - pravy soused (vetsi km); index = 1 - levy soused, index = 2 - prestupni
         {
             Stanice soused = sousedi.ElementAt(index);
             if (soused.jmeno.Equals(jmeno))
@@ -73,7 +73,7 @@ namespace MetroSim
 
         public void vypisSousedy()
         {
-            Console.WriteLine("---------");
+            Console.WriteLine("----Sousedi " + id + "-----");
             for (int i = 0; i < sousedi.Count; i++)
             {
                 Console.WriteLine(sousedi[i].jmeno + "(" + sousedi[i].id + ") vzdalenost: " + vzdalenostOdSouseda(i));
@@ -83,29 +83,51 @@ namespace MetroSim
 
         public void najdiSousedy(SortedList<string, Stanice> seznamStanic)
         {
-            int pocetSousedu = 2;
-            if (jeKonecna)
+            Stanice novySoused = null;
+            if (jeKonecna) //hledam pouze jednu nejblizsi stanici
             {
-                pocetSousedu--;
-            }
-            for (int i = 0; i < pocetSousedu; i++)
-            {
-                Stanice novySoused = null;
                 foreach (KeyValuePair<string, Stanice> k in seznamStanic)
                 {
-                    if ((k.Value.pismeno.Equals(pismeno)) &&
-                        (!k.Value.id.Equals(id)) &&
-                        (!jeSoused(k.Value)) &&
+                    if ((k.Value.pismeno.Equals(pismeno)) && (!k.Value.id.Equals(id)) && (!jeSoused(k.Value)) &&
                         (novySoused == null || (Math.Abs(kilometr - k.Value.kilometr) < Math.Abs(kilometr - novySoused.kilometr))))
+                    {
+                            novySoused = k.Value;
+                    }
+                }
+                pridejSouseda(novySoused);
+            }
+            else
+            {
+                novySoused = null;
+                //hledam souseda na index 0, to je ten s nejmensim kladnym rozdilem
+                foreach (KeyValuePair<string, Stanice> k in seznamStanic)
+                {
+                    float novyRozdil = k.Value.kilometr - kilometr;
+                    if (novyRozdil > 0 && (k.Value.pismeno.Equals(pismeno)) && (!k.Value.id.Equals(id)) && (!jeSoused(k.Value)) &&
+                        (novySoused == null || (novyRozdil < (novySoused.kilometr - kilometr))))
+                    {
+                        novySoused = k.Value;
+                    }
+                }
+                pridejSouseda(novySoused);
+
+                novySoused = null;
+                //hledam souseda na index 1, to je ten s nejmensim zapornym rozdilem
+                foreach (KeyValuePair<string, Stanice> k in seznamStanic)
+                {
+                    float novyRozdil = kilometr - k.Value.kilometr;
+                    if (novyRozdil > 0 && (k.Value.pismeno.Equals(pismeno)) && (!k.Value.id.Equals(id)) && (!jeSoused(k.Value)) &&
+                       (novySoused == null || (novyRozdil < (kilometr - novySoused.kilometr))))
                     {
                         novySoused = k.Value;
                     }
                 }
                 pridejSouseda(novySoused);
             }
+
             if (jePrestupni)
             {
-                Stanice novySoused = null;
+                novySoused = null;
                 foreach (KeyValuePair<string, Stanice> k in seznamStanic)
                 {
                     if ((!k.Value.id.Equals(id)) && k.Value.jmeno.Equals(jmeno))

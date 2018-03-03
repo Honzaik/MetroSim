@@ -25,7 +25,8 @@ namespace MetroSim
             this.rychlost = rychlost;
             this.kapacita = kapacita;
             this.dobaCekaniVeStanici = dobaCekaniVeStanici;
-            this.aktualniStanice = pocatecniStanice;
+            aktualniStanice = pocatecniStanice;
+            seznamPasazeru = new List<Pasazer>();
         }
 
         public void jedDoDalsiStanice()
@@ -41,12 +42,13 @@ namespace MetroSim
 
             if (pismeno == "A")
             {
-                Console.WriteLine("souprava: " + id + " | čas: " + model.getCas() + " | vzdalenost do pristi z " + aktualniStanice.id + " smer " + smerVice + " je " + vzdalenostPristiStanice + " i: " + pristiStaniceIndex);
+                //Console.WriteLine("souprava: " + id + " | čas: " + model.getCas() + " | vzdalenost do pristi z " + aktualniStanice.id + " smer " + smerVice + " je " + vzdalenostPristiStanice + " i: " + pristiStaniceIndex);
             }
             int casPrijezdu = model.getCas() + (int)(vzdalenostPristiStanice / rychlost);
             model.pridejDoKalendare(new Udalost(casPrijezdu, this, TypUdalosti.prijezdDoStanice));
             if (aktualniStanice.jeKonecna)
             {
+                bool oldSmer = smerVice;
                 if(aktualniStanice.kilometr > 0)
                 {
                     smerVice = false;
@@ -55,12 +57,12 @@ namespace MetroSim
                 {
                     smerVice = true;
                 }
+                if(oldSmer ^ smerVice)
+                {
+                    Console.WriteLine("OTACIM SE " + id);
+                }
             }
             aktualniStanice = aktualniStanice.vratSouseda(pristiStaniceIndex);
-            if (pismeno == "A")
-            {
-                //aktualniStanice.vypisSousedy();
-            }
         }
 
         public override void zpracuj(Udalost u)
@@ -68,15 +70,42 @@ namespace MetroSim
             switch (u.co)
             {
                 case TypUdalosti.prijezdDoStanice:
-                    if(aktualniStanice.pismeno == "A")
+                    if(id == "A0")
                     {
-                        Console.WriteLine("souprava " + id + " prijeda do stanice " + aktualniStanice.id + " cas " + u.kdy);
-                    } 
+                        Console.WriteLine("souprava " + id + " prijeda do stanice " + aktualniStanice.jmeno + " (" + aktualniStanice.pismeno + ") cas " + u.kdy);
+                    }
+                    vystupovani();
+                    nastupovani();
                     model.pridejDoKalendare(new Udalost(u.kdy + dobaCekaniVeStanici, this, TypUdalosti.vyjezdZeStanice));
                     break;
                 case TypUdalosti.vyjezdZeStanice:
                     jedDoDalsiStanice();
                     break;
+            }
+        }
+
+        private void vystupovani()
+        {
+            Pasazer p = null;
+            for(int i = 0; i < seznamPasazeru.Count; i++)
+            {
+                p = seznamPasazeru[i];
+                if (p.getPristiStanice() == aktualniStanice)
+                {
+                    Console.WriteLine("pasazer " + p.id + " vystupuje v " + model.getCas() + " ve stanici " + aktualniStanice.id + " z " + id);
+                    model.pridejDoKalendare(new Udalost(model.getCas(), p, TypUdalosti.prichodDoStanice));
+                    seznamPasazeru.Remove(p);
+                }
+            }
+        }
+
+        private void nastupovani()
+        {
+            Pasazer p = null;
+            while((seznamPasazeru.Count < kapacita) && (p = aktualniStanice.vratPasazeraVeSmeru(smerVice)) != null)
+            {
+                Console.WriteLine("pasazer " + p.id + " nastupuje v " + model.getCas() + " ve stanici " + aktualniStanice.id + " do " + id);
+                seznamPasazeru.Add(p);
             }
         }
     }

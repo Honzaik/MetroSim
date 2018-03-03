@@ -17,6 +17,7 @@ namespace MetroSim
         private int cas;
         public int vysledek;
         private MainGUI gui;
+        public bool jeKonec;
 
         public Model(MainGUI gui)
         {
@@ -31,6 +32,7 @@ namespace MetroSim
 
         public void init()
         {
+            jeKonec = false;
             cas = 0;
             vysledek = -1;
             kalendar = new Kalendar();
@@ -146,15 +148,15 @@ namespace MetroSim
 
         public void spocitej()
         {
-            while (!kalendar.jePrazdny())
+            while (!kalendar.jePrazdny() && !jeKonec)
             {
                 Udalost zpracovavanaUdalost = kalendar.vratNejaktualnejsi();
                 cas = zpracovavanaUdalost.kdy;
                 (zpracovavanaUdalost.kdo).zpracuj(zpracovavanaUdalost);
                 cas++;
-                if (cas > 200) break;
+                if (cas > 300) break;
             }
-            vysledek = cas;
+            vysledek = cas - 1;
             gui.finished(vysledek);
         }
 

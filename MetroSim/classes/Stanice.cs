@@ -13,12 +13,13 @@ namespace MetroSim
         public float kilometr;
         public string pismeno;
         public string prestupniPismeno;
+        public int dobaPrestupu;
 
         private Queue<Pasazer> nastupisteVice;
         private Queue<Pasazer> nastupisteMene;
         private List<Stanice> sousedi;
 
-        public Stanice(string id, string pismeno, string jmeno, float kilometr, bool jeKonecna, bool jePrestupni, string prestupniPismeno)
+        public Stanice(string id, string pismeno, string jmeno, float kilometr, bool jeKonecna, bool jePrestupni, string prestupniPismeno, int dobaPrestupu)
         {
             this.id = id;
             this.pismeno = pismeno;
@@ -27,6 +28,7 @@ namespace MetroSim
             this.jeKonecna = jeKonecna;
             this.jePrestupni = jePrestupni;
             this.prestupniPismeno = prestupniPismeno;
+            this.dobaPrestupu = dobaPrestupu;
             sousedi = new List<Stanice>();
             nastupisteVice = new Queue<Pasazer>(); //smer vice kilometru
             nastupisteMene = new Queue<Pasazer>(); //smer mene kilometru
@@ -141,18 +143,17 @@ namespace MetroSim
 
         public void zaradNaNastupiste(Pasazer p, Stanice pristi)
         {
-            
             if (pismeno.Equals(pristi.pismeno))
             {
                 if(pristi.kilometr > kilometr)
                 {
                     nastupisteVice.Enqueue(p);
-                    Console.WriteLine("pasazer " + p.id + " zařazen do fronty VICE, jede do stanice " + pristi.id);
+                    Console.WriteLine("pasazer " + p.id + " zařazen do fronty VICE (" + id + "), jede do stanice " + pristi.id);
                 }
                 else
                 {
                     nastupisteMene.Enqueue(p);
-                    Console.WriteLine("pasazer " + p.id + " zařazen do fronty MENE, jede do stanice " + pristi.id);
+                    Console.WriteLine("pasazer " + p.id + " zařazen do fronty MENE (" + id + "), jede do stanice " + pristi.id);
                 }
             }
             else
@@ -160,6 +161,26 @@ namespace MetroSim
                 Console.WriteLine("CHYBAAA");
                 System.Environment.Exit(1);
             }
+        }
+
+        public Pasazer vratPasazeraVeSmeru(bool smerVice)
+        {
+            Pasazer p = null;
+            if(smerVice)
+            {
+                if(nastupisteVice.Count > 0)
+                {
+                    p = nastupisteVice.Dequeue();
+                }
+            }
+            else
+            {
+                if(nastupisteMene.Count > 0)
+                {
+                    p = nastupisteMene.Dequeue();
+                }
+            }
+            return p;
         }
     }
 }

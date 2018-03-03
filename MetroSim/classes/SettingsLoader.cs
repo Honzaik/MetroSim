@@ -40,7 +40,7 @@ namespace MetroSim
                         }                        
                     }
                     string id = pismeno + jmeno.Substring(0, 3);
-                    Stanice stanice = new Stanice(id, pismeno, jmeno, kilometr, jeKonecna, jePrestupni, prestupniPismeno);
+                    Stanice stanice = new Stanice(id, pismeno, jmeno, kilometr, jeKonecna, jePrestupni, prestupniPismeno, 2);
                     seznamStanic.Add(id, stanice);
                 }
             }

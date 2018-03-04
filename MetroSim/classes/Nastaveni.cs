@@ -6,7 +6,7 @@ namespace MetroSim
     {
 
         public SortedList<string, NastaveniLinky> nastaveniLinek;
-        public int pocatecniCas;
+        public int casPrichodu;
         public Stanice pocatecniStanice;
         public Stanice konecnaStanice;
 
@@ -14,7 +14,7 @@ namespace MetroSim
         {
             pocatecniStanice = null;
             konecnaStanice = null;
-            pocatecniCas = 0;
+            casPrichodu = 0;
             nastaveniLinek = new SortedList<string, NastaveniLinky>();
         }
 

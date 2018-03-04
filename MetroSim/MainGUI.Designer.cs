@@ -45,10 +45,16 @@
             this.nPocetSouprav = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
             this.nKapacita = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
+            this.nCasPrichodu = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
+            this.nDobaCekani = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.pLoading)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nRychlost)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nPocetSouprav)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nKapacita)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nCasPrichodu)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nDobaCekani)).BeginInit();
             this.SuspendLayout();
             // 
             // cZacatek
@@ -119,7 +125,7 @@
             // label3
             // 
             this.label3.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label3.Location = new System.Drawing.Point(52, 135);
+            this.label3.Location = new System.Drawing.Point(53, 184);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(282, 32);
             this.label3.TabIndex = 6;
@@ -142,7 +148,7 @@
             this.cLinky.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cLinky.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.cLinky.FormattingEnabled = true;
-            this.cLinky.Location = new System.Drawing.Point(194, 170);
+            this.cLinky.Location = new System.Drawing.Point(195, 219);
             this.cLinky.Name = "cLinky";
             this.cLinky.Size = new System.Drawing.Size(55, 31);
             this.cLinky.TabIndex = 8;
@@ -151,7 +157,7 @@
             // label4
             // 
             this.label4.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label4.Location = new System.Drawing.Point(133, 170);
+            this.label4.Location = new System.Drawing.Point(134, 219);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(55, 31);
             this.label4.TabIndex = 9;
@@ -161,7 +167,7 @@
             // label5
             // 
             this.label5.Font = new System.Drawing.Font("Comic Sans MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label5.Location = new System.Drawing.Point(3, 211);
+            this.label5.Location = new System.Drawing.Point(4, 260);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(185, 23);
             this.label5.TabIndex = 10;
@@ -177,7 +183,7 @@
             0,
             0,
             131072});
-            this.nRychlost.Location = new System.Drawing.Point(194, 207);
+            this.nRychlost.Location = new System.Drawing.Point(195, 256);
             this.nRychlost.Maximum = new decimal(new int[] {
             5,
             0,
@@ -201,7 +207,7 @@
             // label6
             // 
             this.label6.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label6.Location = new System.Drawing.Point(61, 243);
+            this.label6.Location = new System.Drawing.Point(62, 292);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(127, 32);
             this.label6.TabIndex = 12;
@@ -211,7 +217,7 @@
             // nPocetSouprav
             // 
             this.nPocetSouprav.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.nPocetSouprav.Location = new System.Drawing.Point(195, 245);
+            this.nPocetSouprav.Location = new System.Drawing.Point(196, 294);
             this.nPocetSouprav.Maximum = new decimal(new int[] {
             50,
             0,
@@ -235,7 +241,7 @@
             // label7
             // 
             this.label7.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label7.Location = new System.Drawing.Point(35, 275);
+            this.label7.Location = new System.Drawing.Point(36, 324);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(153, 32);
             this.label7.TabIndex = 14;
@@ -245,7 +251,7 @@
             // nKapacita
             // 
             this.nKapacita.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.nKapacita.Location = new System.Drawing.Point(194, 281);
+            this.nKapacita.Location = new System.Drawing.Point(195, 330);
             this.nKapacita.Maximum = new decimal(new int[] {
             200,
             0,
@@ -266,12 +272,68 @@
             0});
             this.nKapacita.ValueChanged += new System.EventHandler(this.nastaveni_ValueChanged);
             // 
+            // label8
+            // 
+            this.label8.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label8.Location = new System.Drawing.Point(36, 140);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(160, 32);
+            this.label8.TabIndex = 16;
+            this.label8.Text = "Čas příchodu [min]:";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // nCasPrichodu
+            // 
+            this.nCasPrichodu.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.nCasPrichodu.Location = new System.Drawing.Point(196, 143);
+            this.nCasPrichodu.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.nCasPrichodu.Name = "nCasPrichodu";
+            this.nCasPrichodu.Size = new System.Drawing.Size(79, 30);
+            this.nCasPrichodu.TabIndex = 17;
+            // 
+            // label9
+            // 
+            this.label9.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label9.Location = new System.Drawing.Point(3, 363);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(182, 32);
+            this.label9.TabIndex = 18;
+            this.label9.Text = "Doba čekání ve stanici:";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // nDobaCekani
+            // 
+            this.nDobaCekani.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.nDobaCekani.Location = new System.Drawing.Point(195, 366);
+            this.nDobaCekani.Maximum = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+            this.nDobaCekani.Name = "nDobaCekani";
+            this.nDobaCekani.Size = new System.Drawing.Size(54, 30);
+            this.nDobaCekani.TabIndex = 19;
+            this.nDobaCekani.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.nDobaCekani.ValueChanged += new System.EventHandler(this.nastaveni_ValueChanged);
+            // 
             // MainGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(394, 641);
+            this.Controls.Add(this.nDobaCekani);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.nCasPrichodu);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.nKapacita);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.nPocetSouprav);
@@ -298,6 +360,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nRychlost)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nPocetSouprav)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nKapacita)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nCasPrichodu)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nDobaCekani)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -321,6 +385,10 @@
         private System.Windows.Forms.NumericUpDown nPocetSouprav;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown nKapacita;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.NumericUpDown nCasPrichodu;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.NumericUpDown nDobaCekani;
     }
 }
 

@@ -37,7 +37,7 @@ namespace MetroSim
             foreach(KeyValuePair<string, string> k in model.getSeznamStanic().pismenaLinek)
             {
                 cLinky.Items.Add(k.Key);
-                NastaveniLinky nl = new NastaveniLinky(k.Key, (int) nPocetSouprav.Value, (float) nRychlost.Value, (int) nKapacita.Value);
+                NastaveniLinky nl = new NastaveniLinky(k.Key, (int) nPocetSouprav.Value, (float) nRychlost.Value, (int) nKapacita.Value, (int) nDobaCekani.Value);
                 nastaveni.pridejNastaveniLinky(nl);
             }
 
@@ -49,17 +49,10 @@ namespace MetroSim
             nastaveni.pocatecniStanice = model.getSeznamStanic().stanice[(string)((CustomCBItem)cZacatek.SelectedItem).Value];
             nastaveni.konecnaStanice = model.getSeznamStanic().stanice[(string)((CustomCBItem)cKonec.SelectedItem).Value];
 
-            /*nahradit model.nactiNastaveni
-            if (zacatek != null && konec != null)
-            {
-                model.pridejHlavnihoPasazera(zacatek, konec, 0);
-            }
-            else
-            {
-                Console.WriteLine("chyba");
-            }
-            */
-            model.spawniSoupravy();
+            nastaveni.casPrichodu = (int) nCasPrichodu.Value;
+
+            model.nactiNastaveni(nastaveni);
+
             Thread vypocetTh = new Thread(model.spocitej);
             vypocetTh.Start();
             lVysledek.Visible = false;
@@ -127,6 +120,9 @@ namespace MetroSim
                     break;
                 case "nKapacita":
                     nl.kapacitaSouprav = (int)nd.Value;
+                    break;
+                case "nDobaCekani":
+                    nl.dobaCekaniVeStanici = (int)nd.Value;
                     break;
             }
         }

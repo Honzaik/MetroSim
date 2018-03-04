@@ -48,9 +48,12 @@
     <Compile Include="classes\CustomCBItem.cs" />
     <Compile Include="classes\Kalendar.cs" />
     <Compile Include="classes\Model.cs" />
+    <Compile Include="classes\Nastaveni.cs" />
+    <Compile Include="classes\NastaveniLinky.cs" />
     <Compile Include="classes\Pasazer.cs" />
     <Compile Include="classes\Proces.cs" />
-    <Compile Include="classes\SettingsLoader.cs" />
+    <Compile Include="classes\SeznamStanic.cs" />
+    <Compile Include="classes\StaniceLoader.cs" />
     <Compile Include="classes\Souprava.cs" />
     <Compile Include="classes\Stanice.cs" />
     <Compile Include="classes\TypUdalosti.cs" />

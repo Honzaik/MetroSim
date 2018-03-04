@@ -26,7 +26,7 @@ namespace MetroSim
         {
             if(aktualniStanice.jePrestupni && aktualniStanice.prestupniPismeno.Equals(sKonec.pismeno)) //jsem v prestupni stanici a chci prestupit
             {
-                pristiStanice = model.getSeznamStanic()[sKonec.pismeno + aktualniStanice.jmeno.Substring(0, 3)];
+                pristiStanice = model.getSeznamStanic().stanice[sKonec.pismeno + aktualniStanice.jmeno.Substring(0, 3)];
                 return;
             }
 
@@ -36,7 +36,7 @@ namespace MetroSim
             }
             else
             {
-                foreach (KeyValuePair<string, Stanice> k in model.getSeznamStanic()) //najdi prestupni stanici ktera je
+                foreach (KeyValuePair<string, Stanice> k in model.getSeznamStanic().stanice) //najdi prestupni stanici ktera je
                 {
                     if (k.Value.jePrestupni && k.Value.pismeno.Equals(aktualniStanice.pismeno) && k.Value.prestupniPismeno.Equals(sKonec.pismeno))
                     {
@@ -74,7 +74,7 @@ namespace MetroSim
                     }
                     else
                     {
-                        model.getSeznamStanic()[aktualniStanice.id].zaradNaNastupiste(this, pristiStanice);
+                        model.getSeznamStanic().stanice[aktualniStanice.id].zaradNaNastupiste(this, pristiStanice);
                     }
                     aktualniStanice = pristiStanice;
                     break;

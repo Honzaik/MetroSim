@@ -7,7 +7,7 @@ namespace MetroSim
     class Model
     {
 
-        private SortedList<string, Stanice> seznamStanic;
+        private SeznamStanic seznamStanic;
         private SortedList<int, Pasazer> seznamPasazeru;
         private SortedList<string, Souprava> seznamSouprav;
         private SortedList<string, Stanice[]> konecneStanice;
@@ -37,19 +37,23 @@ namespace MetroSim
             vysledek = -1;
             kalendar = new Kalendar();
 
-            seznamStanic = SettingsLoader.nactiNastaveni(settingsPath, this);
+            seznamStanic = new SeznamStanic(StaniceLoader.nactiStanice(settingsPath));
 
-            Console.WriteLine("Načteno " + seznamStanic.Count + " stanic");
+            Console.WriteLine("Načteno " + seznamStanic.stanice.Count + " stanic");
+            Console.WriteLine("Počet linek: " + seznamStanic.pismenaLinek.Count);
 
             setKonecneStanice();
-
-            vypisKonecneStanice();
 
             vytvorPocatecniSoupravy(0.3f, 40);
 
             najdiSousedy();
 
             seznamPasazeru = new SortedList<int, Pasazer>();
+
+        }
+
+        public void nactiNastaveni(Nastaveni nastaveni)
+        {
 
         }
 
@@ -74,7 +78,7 @@ namespace MetroSim
         private void setKonecneStanice()
         {
             konecneStanice = new SortedList<string, Stanice[]>();
-            foreach (KeyValuePair<string, Stanice> k in seznamStanic)
+            foreach (KeyValuePair<string, Stanice> k in seznamStanic.stanice)
             {
                 if (k.Value.jeKonecna)
                 {
@@ -107,25 +111,15 @@ namespace MetroSim
             }
         }
 
-        private void vypisKonecneStanice()
-        {
-            Console.WriteLine("#############");
-            Console.WriteLine("konecne stanice");
-            foreach (KeyValuePair<string, Stanice[]> k in konecneStanice)
-            {
-                Console.WriteLine(k.Key + ": " + k.Value[0].id + " a " + k.Value[1].id);
-            }
-        }
-
         private void najdiSousedy()
         {
-            foreach(KeyValuePair<string, Stanice> k in seznamStanic)
+            foreach(KeyValuePair<string, Stanice> k in seznamStanic.stanice)
             {
-                k.Value.najdiSousedy(seznamStanic);
+                k.Value.najdiSousedy(seznamStanic.stanice);
             }
         }
 
-        public SortedList<string, Stanice> getSeznamStanic()
+        public SeznamStanic getSeznamStanic()
         {
             return seznamStanic;
         }

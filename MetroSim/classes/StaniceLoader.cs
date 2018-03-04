@@ -5,10 +5,10 @@ using System.IO;
 
 namespace MetroSim
 {
-    class SettingsLoader
+    class StaniceLoader
     {
 
-        public static SortedList<string, Stanice> nactiNastaveni(string path, Model model)
+        public static SortedList<string, Stanice> nactiStanice(string path)
         {
             SortedList<string, Stanice> seznamStanic = new SortedList<string, Stanice>();
             StreamReader sr = new StreamReader(path);

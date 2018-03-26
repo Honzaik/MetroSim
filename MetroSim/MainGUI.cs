@@ -49,14 +49,16 @@ namespace MetroSim
             nastaveni.pocatecniStanice = model.getSeznamStanic().stanice[(string)((CustomCBItem)cZacatek.SelectedItem).Value];
             nastaveni.konecnaStanice = model.getSeznamStanic().stanice[(string)((CustomCBItem)cKonec.SelectedItem).Value];
 
-            nastaveni.casPrichodu = (int) nCasPrichodu.Value;
+            nastaveni.casPrichodu = (int) nCasPrichodu.Value; //zatim nic nedela
 
+            model.reset();
             model.nactiNastaveni(nastaveni);
 
             Thread vypocetTh = new Thread(model.spocitej);
             vypocetTh.Start();
             lVysledek.Visible = false;
             pLoading.Visible = true;
+            bStart.Enabled = false;
         }
 
         delegate void BoolArgReturningVoidDelegate(bool visible);
@@ -87,6 +89,7 @@ namespace MetroSim
             {
                 lVysledek.Visible = true;
                 lVysledek.Text = vysledek;
+                bStart.Enabled = true;
             }
         }
 

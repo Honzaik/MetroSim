@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace MetroSim
 {
@@ -19,6 +18,7 @@ namespace MetroSim
         private MainGUI gui;
         public bool jeKonec;
         private Nastaveni nastaveni;
+        private Random rand;
 
         public Model(MainGUI gui)
         {
@@ -33,8 +33,6 @@ namespace MetroSim
 
         public void init()
         {
-            kalendar = new Kalendar();
-
             seznamStanic = new SeznamStanic(StaniceLoader.nactiStanice(settingsPath));
 
             Console.WriteLine("Načteno " + seznamStanic.stanice.Count + " stanic");
@@ -44,8 +42,18 @@ namespace MetroSim
 
             najdiSousedy();
 
+            rand = new Random();
+        }
+
+        public void reset()
+        {
+            kalendar = new Kalendar();
             seznamPasazeru = new SortedList<int, Pasazer>();
 
+            foreach(KeyValuePair<string, Stanice> k in seznamStanic.stanice)
+            {
+                k.Value.reset();
+            }
         }
 
         public void nactiNastaveni(Nastaveni n)
@@ -73,12 +81,7 @@ namespace MetroSim
             }
 
             spawniPocatecniSoupravy();
-        }
-
-        private void pridejSoupravu(Souprava s)
-        {
-            seznamSouprav.Add(s.id, s);
-            pocetSouprav[s.pismeno]++;
+            spawniOstatniPasazery(); //kolik za jednotku casu se spawne
         }
 
         private void setKonecneStanice()
@@ -134,8 +137,37 @@ namespace MetroSim
         {
             Pasazer hlavni = new Pasazer(this, "0", zacatek, konec, start);
             seznamPasazeru.Add(seznamPasazeru.Count, hlavni);
-            Udalost prichodPrvnihoPasazera = new Udalost(cas, hlavni, TypUdalosti.prichodDoStanice);
+            Udalost prichodPrvnihoPasazera = new Udalost(start, hlavni, TypUdalosti.prichodDoStanice);
             kalendar.pridejUdalost(prichodPrvnihoPasazera);
+        }
+
+        private Pasazer vygenerujPasazera()
+        {
+            int pocatecniStanice = rand.Next(0, seznamStanic.stanice.Count);
+            int konecnaStanice = rand.Next(0, seznamStanic.stanice.Count);
+            while (konecnaStanice == pocatecniStanice)
+            {
+                konecnaStanice = rand.Next(0, seznamStanic.stanice.Count); //aby se generovali pasazeri, kteri nikam nejedou v podstate
+            }
+            Pasazer p = new Pasazer(this, seznamPasazeru.Count + "", seznamStanic.stanice.Values[pocatecniStanice], seznamStanic.stanice.Values[konecnaStanice], cas);
+            return p;
+        }
+
+        private void spawniOstatniPasazery()
+        {
+            int posledniSpawnCas = seznamPasazeru[seznamPasazeru.Count-1].start; //cas kdy se naposledy spawnovali novi lide
+            int pocetLidiKVygenerovani = (cas - posledniSpawnCas) * nastaveni.frekvenceLidi;
+            if(pocetLidiKVygenerovani == 0) //zacatek treba
+            {
+                pocetLidiKVygenerovani = 5; //aspon 5
+            }
+            for(int i = 0; i < pocetLidiKVygenerovani; i++)
+            {
+                Pasazer p = vygenerujPasazera();
+                seznamPasazeru.Add(seznamPasazeru.Count, p);
+                Udalost prichodPasazera = new Udalost(cas, p, TypUdalosti.prichodDoStanice);
+                kalendar.pridejUdalost(prichodPasazera);
+            }
         }
 
         private void spawniSoupravu(Souprava s, int cas) //prida soupravu do kalendar
@@ -143,6 +175,11 @@ namespace MetroSim
             kalendar.pridejUdalost(new Udalost(cas, s, TypUdalosti.prijezdDoStanice));
         }
 
+        private void pridejSoupravu(Souprava s)
+        {
+            seznamSouprav.Add(s.id, s);
+            pocetSouprav[s.pismeno]++;
+        }
 
         public void spawniPocatecniSoupravy()
         {
@@ -154,7 +191,6 @@ namespace MetroSim
                     nastaveni.nastaveniLinek[k.Key].dobaCekaniVeStanici, 
                     k.Value[0]); //souprava na pocatecni stanici
                 pridejSoupravu(s);
-                pocetSouprav[k.Key]++;
                 spawniSoupravu(s, 0);
 
                 s = new Souprava(this, k.Key + pocetSouprav[k.Key], k.Key, false,
@@ -163,19 +199,38 @@ namespace MetroSim
                     nastaveni.nastaveniLinek[k.Key].dobaCekaniVeStanici,
                     k.Value[1]); //souprava na konci v protismeru
                 pridejSoupravu(s);
-                pocetSouprav[k.Key]++;
                 spawniSoupravu(s, 0);
             }
         }
 
         public void spocitej()
         {
+            Console.WriteLine("POCET PASAZERU: " + seznamPasazeru.Count);
+            bool spawnNew = false;
             while (!kalendar.jePrazdny() && !jeKonec)
             {
                 Udalost zpracovavanaUdalost = kalendar.vratNejaktualnejsi();
+                if(zpracovavanaUdalost.kdy > cas) //pokud se nekam posunul cas -> spawni nove lidi
+                {
+                    spawnNew = true;
+                }
+                else
+                {
+                    spawnNew = false;
+                }
                 cas = zpracovavanaUdalost.kdy;
+                if (spawnNew)
+                {
+                    spawniOstatniPasazery();
+                }
+
                 (zpracovavanaUdalost.kdo).zpracuj(zpracovavanaUdalost);
-                if (cas > 300) break;
+                
+                if (cas > 8000)
+                {
+                    Console.WriteLine("STOPPED BECAUSE TIME LIMIT EXCEEDED");
+                    break;
+                }
             }
             vysledek = cas;
             gui.finished(vysledek);

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MetroSim
 {
@@ -70,7 +67,7 @@ namespace MetroSim
             switch (u.co)
             {
                 case TypUdalosti.prijezdDoStanice:
-                    if(id == "A0")
+                    if(true)
                     {
                         Console.WriteLine("souprava " + id + " prijeda do stanice " + aktualniStanice.jmeno + " (" + aktualniStanice.pismeno + ") cas " + u.kdy);
                     }

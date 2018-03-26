@@ -182,5 +182,11 @@ namespace MetroSim
             }
             return p;
         }
+
+        public void reset()
+        {
+            nastupisteVice = new Queue<Pasazer>(); //smer vice kilometru
+            nastupisteMene = new Queue<Pasazer>(); //smer mene kilometru
+        }
     }
 }

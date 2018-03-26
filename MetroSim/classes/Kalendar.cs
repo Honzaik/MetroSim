@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MetroSim
 {
@@ -22,9 +19,9 @@ namespace MetroSim
 
         public void odeberUdalost(int kdy, Proces kdo, TypUdalosti co)
         {
-            foreach(Udalost u in seznamUdalosti)
+            foreach (Udalost u in seznamUdalosti)
             {
-                if(u.kdy == kdy && u.kdo == kdo && u.co == co)
+                if (u.kdy == kdy && u.kdo == kdo && u.co == co)
                 {
                     seznamUdalosti.Remove(u);
                     break;
@@ -35,15 +32,15 @@ namespace MetroSim
         public Udalost vratNejaktualnejsi()
         {
             Udalost nejaktualnejsi = null;
-            foreach(Udalost u in seznamUdalosti)
+            foreach (Udalost u in seznamUdalosti)
             {
-                if(nejaktualnejsi == null)
+                if (nejaktualnejsi == null)
                 {
                     nejaktualnejsi = u;
                 }
                 else
                 {
-                    if(u.kdy < nejaktualnejsi.kdy)
+                    if (u.kdy < nejaktualnejsi.kdy)
                     {
                         nejaktualnejsi = u;
                     }
@@ -57,6 +54,5 @@ namespace MetroSim
         {
             return (seznamUdalosti.Count > 0) ? false : true;
         }
-        
     }
 }

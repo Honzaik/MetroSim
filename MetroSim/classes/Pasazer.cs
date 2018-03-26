@@ -64,7 +64,11 @@ namespace MetroSim
                     Console.WriteLine("pasazer " + id + " prisel do stanice " + aktualniStanice.id + " v " + u.kdy);
                     if(aktualniStanice == sKonec)
                     {
-                        model.jeKonec = true;
+                        Console.WriteLine("PASAZER " + id + " DORAZIL DO KONCE " + aktualniStanice.id + " v " + u.kdy);
+                        if (this.id.Equals("0")) //hlavni pasazer
+                        {
+                            model.jeKonec = true;
+                        }
                         break;
                     }
                     setPristiStanice();

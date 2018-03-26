@@ -196,7 +196,7 @@ namespace MetroSim
                 s = new Souprava(this, k.Key + pocetSouprav[k.Key], k.Key, false,
                     nastaveni.nastaveniLinek[k.Key].rychlostSouprav,
                     nastaveni.nastaveniLinek[k.Key].kapacitaSouprav,
-                    nastaveni.nastaveniLinek[k.Key].dobaCekaniVeStanici,
+                    nastaveni.nastaveniLinek[k.Key].dobaCekaniVeStanici, 
                     k.Value[1]); //souprava na konci v protismeru
                 pridejSoupravu(s);
                 spawniSoupravu(s, 0);

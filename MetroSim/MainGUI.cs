@@ -51,8 +51,11 @@ namespace MetroSim
 
             nastaveni.casPrichodu = (int) nCasPrichodu.Value; //zatim nic nedela
 
+            
             model.reset();
             model.nactiNastaveni(nastaveni);
+
+            
 
             Thread vypocetTh = new Thread(model.spocitej);
             vypocetTh.Start();

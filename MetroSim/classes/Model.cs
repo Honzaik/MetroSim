@@ -19,6 +19,8 @@ namespace MetroSim
         public bool jeKonec;
         private Nastaveni nastaveni;
         private Random rand;
+        private SpawnerSouprav spawnerSouprav;
+        private static int SPAWN_SOUPRAV_MEZICAS = 5; 
 
         public Model(MainGUI gui)
         {
@@ -43,6 +45,7 @@ namespace MetroSim
             najdiSousedy();
 
             rand = new Random();
+            spawnerSouprav = new SpawnerSouprav(this, "spawner");
         }
 
         public void reset()
@@ -59,6 +62,7 @@ namespace MetroSim
         public void nactiNastaveni(Nastaveni n)
         {
             nastaveni = n;
+
             cas = 0;
             jeKonec = false;
             vysledek = -1;
@@ -80,7 +84,7 @@ namespace MetroSim
                 Console.WriteLine("chyba");
             }
 
-            spawniPocatecniSoupravy();
+            naplanujSpawnSouprav();
             spawniOstatniPasazery(); //kolik za jednotku casu se spawne
         }
 
@@ -181,31 +185,55 @@ namespace MetroSim
             pocetSouprav[s.pismeno]++;
         }
 
-        public void spawniPocatecniSoupravy()
+        public void spawniCastSouprav()
         {
             foreach (KeyValuePair<string, Stanice[]> k in konecneStanice)
             {
-                Souprava s = new Souprava(this, k.Key + pocetSouprav[k.Key], k.Key, true, 
+                if (nastaveni.nastaveniLinek[k.Key].pocetSouprav > pocetSouprav[k.Key]) //jeste je potreba spawnout
+                {
+                    Souprava s = new Souprava(this, k.Key + pocetSouprav[k.Key], k.Key, true,
                     nastaveni.nastaveniLinek[k.Key].rychlostSouprav,
                     nastaveni.nastaveniLinek[k.Key].kapacitaSouprav,
-                    nastaveni.nastaveniLinek[k.Key].dobaCekaniVeStanici, 
+                    nastaveni.nastaveniLinek[k.Key].dobaCekaniVeStanici,
                     k.Value[0]); //souprava na pocatecni stanici
-                pridejSoupravu(s);
-                spawniSoupravu(s, 0);
+                    pridejSoupravu(s);
+                    spawniSoupravu(s, cas);
 
-                s = new Souprava(this, k.Key + pocetSouprav[k.Key], k.Key, false,
-                    nastaveni.nastaveniLinek[k.Key].rychlostSouprav,
-                    nastaveni.nastaveniLinek[k.Key].kapacitaSouprav,
-                    nastaveni.nastaveniLinek[k.Key].dobaCekaniVeStanici, 
-                    k.Value[1]); //souprava na konci v protismeru
-                pridejSoupravu(s);
-                spawniSoupravu(s, 0);
+                    s = new Souprava(this, k.Key + pocetSouprav[k.Key], k.Key, false,
+                        nastaveni.nastaveniLinek[k.Key].rychlostSouprav,
+                        nastaveni.nastaveniLinek[k.Key].kapacitaSouprav,
+                        nastaveni.nastaveniLinek[k.Key].dobaCekaniVeStanici,
+                        k.Value[1]); //souprava na konci v protismeru
+                    pridejSoupravu(s);
+                    spawniSoupravu(s, cas);
+                }
+                else
+                {
+                    Console.WriteLine("přeskakuju " + k.Key + " pocet souprav je " + pocetSouprav[k.Key] + " kapacita: " + nastaveni.nastaveniLinek[k.Key].pocetSouprav);
+                }
+            }
+        }
+
+        public void naplanujSpawnSouprav() //naplanuje udalost pro spawn souprav v urcite casy
+        {
+            int maxPocetSouprav = 2;
+            foreach(KeyValuePair<string, string> k in seznamStanic.pismenaLinek)
+            {
+                if(nastaveni.nastaveniLinek[k.Value].pocetSouprav > maxPocetSouprav)
+                {
+                    maxPocetSouprav = nastaveni.nastaveniLinek[k.Value].pocetSouprav;
+                }
+            }
+
+            for(int i = 0; i < maxPocetSouprav/2; i++)
+            {
+                kalendar.pridejUdalost(new Udalost(SPAWN_SOUPRAV_MEZICAS * i, spawnerSouprav, TypUdalosti.spawnSouprav));
+                Console.WriteLine("BUDU SPAWNOVAT SOUPRAVY V " + SPAWN_SOUPRAV_MEZICAS * i);
             }
         }
 
         public void spocitej()
         {
-            Console.WriteLine("POCET PASAZERU: " + seznamPasazeru.Count);
             bool spawnNew = false;
             while (!kalendar.jePrazdny() && !jeKonec)
             {

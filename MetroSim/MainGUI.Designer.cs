@@ -217,6 +217,11 @@
             // nPocetSouprav
             // 
             this.nPocetSouprav.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.nPocetSouprav.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             this.nPocetSouprav.Location = new System.Drawing.Point(196, 294);
             this.nPocetSouprav.Maximum = new decimal(new int[] {
             50,
@@ -224,7 +229,7 @@
             0,
             0});
             this.nPocetSouprav.Minimum = new decimal(new int[] {
-            1,
+            2,
             0,
             0,
             0});

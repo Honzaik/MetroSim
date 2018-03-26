@@ -4,6 +4,7 @@
     {
         prichodDoStanice,
         prijezdDoStanice,
-        vyjezdZeStanice
+        vyjezdZeStanice,
+        spawnSouprav,
     }
 }

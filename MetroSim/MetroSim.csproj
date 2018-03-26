@@ -53,6 +53,7 @@
     <Compile Include="classes\Pasazer.cs" />
     <Compile Include="classes\Proces.cs" />
     <Compile Include="classes\SeznamStanic.cs" />
+    <Compile Include="classes\SpawnerSouprav.cs" />
     <Compile Include="classes\StaniceLoader.cs" />
     <Compile Include="classes\Souprava.cs" />
     <Compile Include="classes\Stanice.cs" />

@@ -74,6 +74,7 @@ namespace MetroSim
                     vystupovani();
                     nastupovani();
                     model.pridejDoKalendare(new Udalost(u.kdy + dobaCekaniVeStanici, this, TypUdalosti.vyjezdZeStanice));
+
                     break;
                 case TypUdalosti.vyjezdZeStanice:
                     jedDoDalsiStanice();

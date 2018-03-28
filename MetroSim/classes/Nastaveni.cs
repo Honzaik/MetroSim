@@ -17,7 +17,7 @@ namespace MetroSim
             konecnaStanice = null;
             casPrichodu = 0;
             nastaveniLinek = new SortedList<string, NastaveniLinky>();
-            frekvenceLidi = 5; //5 novych lidi za jednotku casu ve stanicich
+            frekvenceLidi = 1; //default
         }
 
         public void pridejNastaveniLinky(NastaveniLinky n)

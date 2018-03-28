@@ -22,13 +22,15 @@ namespace MetroSim
         private SpawnerSouprav spawnerSouprav;
         private static int SPAWN_SOUPRAV_MEZICAS = 5; 
 
-        public Model(MainGUI gui)
+        public Model(MainGUI gui, Random rand)
         {
+            this.rand = rand;
             this.gui = gui;
         }
 
-        public Model(MainGUI gui, string settingsPath)
+        public Model(MainGUI gui, Random rand, string settingsPath)
         {
+            this.rand = rand;
             this.gui = gui;
             this.settingsPath = settingsPath;
         }
@@ -43,8 +45,6 @@ namespace MetroSim
             setKonecneStanice();
 
             najdiSousedy();
-
-            rand = new Random();
             spawnerSouprav = new SpawnerSouprav(this, "spawner");
         }
 
@@ -161,9 +161,9 @@ namespace MetroSim
         {
             int posledniSpawnCas = seznamPasazeru[seznamPasazeru.Count-1].start; //cas kdy se naposledy spawnovali novi lide
             int pocetLidiKVygenerovani = (cas - posledniSpawnCas) * nastaveni.frekvenceLidi;
-            if(pocetLidiKVygenerovani == 0) //zacatek treba
+            if(pocetLidiKVygenerovani == 0) //zacatek napřiklad (vždycky nekoho vygeneruj, když se změní čas)
             {
-                pocetLidiKVygenerovani = 5; //aspon 5
+                pocetLidiKVygenerovani = nastaveni.frekvenceLidi;
             }
             for(int i = 0; i < pocetLidiKVygenerovani; i++)
             {
@@ -254,9 +254,10 @@ namespace MetroSim
 
                 (zpracovavanaUdalost.kdo).zpracuj(zpracovavanaUdalost);
                 
-                if (cas > 8000)
+                if (cas > 50000)
                 {
-                    Console.WriteLine("STOPPED BECAUSE TIME LIMIT EXCEEDED");
+                    Console.WriteLine("STOPPED BECAUSE TIME LIMIT EXCEEDED " + cas);
+                    cas = -1; //chyba
                     break;
                 }
             }

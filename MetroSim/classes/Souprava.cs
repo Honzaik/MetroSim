@@ -37,10 +37,6 @@ namespace MetroSim
 
             vzdalenostPristiStanice = aktualniStanice.vzdalenostOdSouseda(pristiStaniceIndex);
 
-            if (pismeno == "A")
-            {
-                //Console.WriteLine("souprava: " + id + " | čas: " + model.getCas() + " | vzdalenost do pristi z " + aktualniStanice.id + " smer " + smerVice + " je " + vzdalenostPristiStanice + " i: " + pristiStaniceIndex);
-            }
             int casPrijezdu = model.getCas() + (int)(vzdalenostPristiStanice / rychlost);
             model.pridejDoKalendare(new Udalost(casPrijezdu, this, TypUdalosti.prijezdDoStanice));
             if (aktualniStanice.jeKonecna)
@@ -56,7 +52,7 @@ namespace MetroSim
                 }
                 if(oldSmer ^ smerVice)
                 {
-                    Console.WriteLine("OTACIM SE " + id);
+                    //Console.WriteLine("OTACIM SE " + id);
                 }
             }
             aktualniStanice = aktualniStanice.vratSouseda(pristiStaniceIndex);
@@ -67,10 +63,7 @@ namespace MetroSim
             switch (u.co)
             {
                 case TypUdalosti.prijezdDoStanice:
-                    if(true)
-                    {
-                        Console.WriteLine("souprava " + id + " prijeda do stanice " + aktualniStanice.jmeno + " (" + aktualniStanice.pismeno + ") cas " + u.kdy);
-                    }
+                    //if(pismeno == "A") Console.WriteLine("souprava " + id + " prijela do stanice " + aktualniStanice.jmeno + " (" + aktualniStanice.pismeno + ") cas " + u.kdy);
                     vystupovani();
                     nastupovani();
                     model.pridejDoKalendare(new Udalost(u.kdy + dobaCekaniVeStanici, this, TypUdalosti.vyjezdZeStanice));
@@ -90,9 +83,13 @@ namespace MetroSim
                 p = seznamPasazeru[i];
                 if (p.getPristiStanice() == aktualniStanice)
                 {
-                    Console.WriteLine("pasazer " + p.id + " vystupuje v " + model.getCas() + " ve stanici " + aktualniStanice.id + " z " + id);
+                    //Console.WriteLine("pasazer " + p.id + " vystupuje v " + model.getCas() + " ve stanici " + aktualniStanice.id + " z " + id);
                     model.pridejDoKalendare(new Udalost(model.getCas(), p, TypUdalosti.prichodDoStanice));
                     seznamPasazeru.Remove(p);
+                }
+                else
+                {
+                    //Console.WriteLine("pasazer nevystupuje protoze akt stanice je " + aktualniStanice.id + " ale chce do " + p.getPristiStanice().id);
                 }
             }
         }
@@ -102,7 +99,7 @@ namespace MetroSim
             Pasazer p = null;
             while((seznamPasazeru.Count < kapacita) && (p = aktualniStanice.vratPasazeraVeSmeru(smerVice)) != null)
             {
-                Console.WriteLine("pasazer " + p.id + " nastupuje v " + model.getCas() + " ve stanici " + aktualniStanice.id + " do " + id);
+                //Console.WriteLine("pasazer " + p.id + " nastupuje v " + model.getCas() + " ve stanici " + aktualniStanice.id + " do " + id);
                 seznamPasazeru.Add(p);
             }
         }

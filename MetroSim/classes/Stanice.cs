@@ -148,12 +148,12 @@ namespace MetroSim
                 if(pristi.kilometr > kilometr)
                 {
                     nastupisteVice.Enqueue(p);
-                    Console.WriteLine("pasazer " + p.id + " zařazen do fronty VICE (" + id + "), jede do stanice " + pristi.id);
+                    //Console.WriteLine("pasazer " + p.id + " zařazen do fronty VICE (" + id + "), jede do stanice " + pristi.id);
                 }
                 else
                 {
                     nastupisteMene.Enqueue(p);
-                    Console.WriteLine("pasazer " + p.id + " zařazen do fronty MENE (" + id + "), jede do stanice " + pristi.id);
+                    //Console.WriteLine("pasazer " + p.id + " zařazen do fronty MENE (" + id + "), jede do stanice " + pristi.id);
                 }
             }
             else

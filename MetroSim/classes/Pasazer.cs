@@ -19,7 +19,7 @@ namespace MetroSim
             this.sKonec = sKonec;
             this.start = start;
             this.aktualniStanice = sZacatek;
-            Console.WriteLine("vytvoren pasazer " + id + ", jede z " + sZacatek.getComboBoxName() + " do " + sKonec.getComboBoxName() + ", vyrazib v case " + start);
+            //Console.WriteLine("vytvoren pasazer " + id + ", jede z " + sZacatek.getComboBoxName() + " do " + sKonec.getComboBoxName() + ", vyrazi v case " + start);
         }
 
         public void setPristiStanice()
@@ -61,10 +61,12 @@ namespace MetroSim
             switch (u.co)
             {
                 case TypUdalosti.prichodDoStanice:
-                    Console.WriteLine("pasazer " + id + " prisel do stanice " + aktualniStanice.id + " v " + u.kdy);
+                    if (this.id.Equals("0")) {
+                        Console.WriteLine("pasazer " + id + " prisel do stanice " + aktualniStanice.id + " v " + u.kdy);
+                    }
                     if(aktualniStanice == sKonec)
                     {
-                        Console.WriteLine("PASAZER " + id + " DORAZIL DO KONCE " + aktualniStanice.id + " v " + u.kdy);
+                        //Console.WriteLine("PASAZER " + id + " DORAZIL DO KONCE " + aktualniStanice.id + " v " + u.kdy);
                         if (this.id.Equals("0")) //hlavni pasazer
                         {
                             model.jeKonec = true;

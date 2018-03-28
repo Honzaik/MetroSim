@@ -17,37 +17,26 @@ namespace MetroSim
             seznamUdalosti.Add(u);
         }
 
-        public void odeberUdalost(int kdy, Proces kdo, TypUdalosti co)
-        {
-            foreach (Udalost u in seznamUdalosti)
-            {
-                if (u.kdy == kdy && u.kdo == kdo && u.co == co)
-                {
-                    seznamUdalosti.Remove(u);
-                    break;
-                }
-            }
-        }
-
         public Udalost vratNejaktualnejsi()
         {
-            Udalost nejaktualnejsi = null;
-            foreach (Udalost u in seznamUdalosti)
+            if (seznamUdalosti.Count > 0)
             {
-                if (nejaktualnejsi == null)
+                Udalost nejaktualnejsi = seznamUdalosti[0];
+                for(int i = 1; i < seznamUdalosti.Count; i++)
                 {
-                    nejaktualnejsi = u;
-                }
-                else
-                {
-                    if (u.kdy < nejaktualnejsi.kdy)
+                    if (seznamUdalosti[i].kdy < nejaktualnejsi.kdy)
                     {
-                        nejaktualnejsi = u;
+                        nejaktualnejsi = seznamUdalosti[i];
                     }
                 }
+                seznamUdalosti.Remove(nejaktualnejsi);
+                return nejaktualnejsi;
             }
-            seznamUdalosti.Remove(nejaktualnejsi);
-            return nejaktualnejsi;
+            else
+            {
+                return null;
+            }
+           
         }
 
         public Boolean jePrazdny()

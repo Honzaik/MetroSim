@@ -20,18 +20,21 @@ namespace MetroSim
         private Nastaveni nastaveni;
         private Random rand;
         private SpawnerSouprav spawnerSouprav;
-        private static int SPAWN_SOUPRAV_MEZICAS = 5; 
+        private static int SPAWN_SOUPRAV_MEZICAS = 5;
+        private string id;
 
-        public Model(MainGUI gui, Random rand)
+        public Model(MainGUI gui, Random rand, string id)
         {
             this.rand = rand;
             this.gui = gui;
+            this.id = id;
         }
 
-        public Model(MainGUI gui, Random rand, string settingsPath)
+        public Model(MainGUI gui, Random rand, string id, string settingsPath)
         {
             this.rand = rand;
             this.gui = gui;
+            this.id = id;
             this.settingsPath = settingsPath;
         }
 
@@ -234,9 +237,15 @@ namespace MetroSim
 
         public void spocitej()
         {
+            Console.WriteLine("ZAHAJUJU VYPOCET " + this.id);
             bool spawnNew = false;
             while (!kalendar.jePrazdny() && !jeKonec)
             {
+                if (spawnNew && cas > 0 && cas % 5000 == 0) //debug
+                {
+                    Console.WriteLine("stale bezim " + this.id + " @ " + cas);
+                }
+
                 Udalost zpracovavanaUdalost = kalendar.vratNejaktualnejsi();
                 if(zpracovavanaUdalost.kdy > cas) //pokud se nekam posunul cas -> spawni nove lidi
                 {
@@ -254,12 +263,13 @@ namespace MetroSim
 
                 (zpracovavanaUdalost.kdo).zpracuj(zpracovavanaUdalost);
                 
-                if (cas > 50000)
+                if (cas > 5000)
                 {
                     Console.WriteLine("STOPPED BECAUSE TIME LIMIT EXCEEDED " + cas);
                     cas = -1; //chyba
                     break;
                 }
+               
             }
             vysledek = cas;
             gui.finished(vysledek);
@@ -268,11 +278,6 @@ namespace MetroSim
         public void pridejDoKalendare(Udalost u)
         {
             kalendar.pridejUdalost(u);
-        }
-
-        public void odeberZKalendare(int kdy, Proces kdo, TypUdalosti co)
-        {
-            kalendar.odeberUdalost(kdy, kdo, co);
         }
 
         public int getCas()

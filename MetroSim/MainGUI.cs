@@ -12,7 +12,9 @@ namespace MetroSim
         private Nastaveni nastaveni;
         private Model[] modely;
         private Random rand;
-        private static int POCET_MODELU = 2;
+        private static int POCET_MODELU = 50;
+        private double prumerVysledku;
+        private int dokoncenychVypoctu;
 
         public MainGUI()
         {
@@ -23,10 +25,10 @@ namespace MetroSim
         {
             rand = new Random();
             nastaveni = new Nastaveni();
-            modely = new Model[10];
+            modely = new Model[POCET_MODELU];
             for(int i = 0; i < POCET_MODELU; i++)
             {
-                modely[i] = new Model(this, rand);
+                modely[i] = new Model(this, rand, "Model-" + i);
                 modely[i].init();
             }
             //model = new Model(this);
@@ -56,7 +58,8 @@ namespace MetroSim
 
         private void bStart_Click(object sender, EventArgs e)
         {
-            
+            prumerVysledku = 0;
+            dokoncenychVypoctu = 0;
 
             lVysledek.Visible = false;
             pLoading.Visible = true;
@@ -71,6 +74,10 @@ namespace MetroSim
                 nastaveni.casPrichodu = (int)nCasPrichodu.Value;
                 modely[i].reset();
                 modely[i].nactiNastaveni(nastaveni);
+            }
+
+            for(int i = 0; i < POCET_MODELU; i++)
+            {
                 (new Thread(modely[i].spocitej)).Start();
             }
         }
@@ -110,8 +117,22 @@ namespace MetroSim
         public void finished(int vysledek)
         {
             Console.WriteLine("konec " + vysledek);
-            setLoadingVisibility(false);
-            showVysledek(vysledek.ToString());
+            if(vysledek >= 0) //je platny = nedoslo k timeoutu
+            {
+                prumerVysledku += ((double)vysledek / (double)POCET_MODELU);
+            }
+            
+            dokoncenychVypoctu++;
+            if(dokoncenychVypoctu == POCET_MODELU)
+            {
+                setLoadingVisibility(false);
+                showVysledek(prumerVysledku.ToString());
+            }
+            else
+            {
+                Console.WriteLine("JESTE CHYBI " + (POCET_MODELU - dokoncenychVypoctu));
+            }
+            
         }
 
         private void cLinky_SelectedIndexChanged(object sender, EventArgs e)

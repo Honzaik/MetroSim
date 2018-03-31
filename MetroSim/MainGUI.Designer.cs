@@ -201,10 +201,10 @@
             this.nRychlost.Size = new System.Drawing.Size(55, 30);
             this.nRychlost.TabIndex = 11;
             this.nRychlost.Value = new decimal(new int[] {
-            5,
+            65,
             0,
             0,
-            65536});
+            131072});
             this.nRychlost.ValueChanged += new System.EventHandler(this.nastaveni_ValueChanged);
             // 
             // label6
@@ -240,7 +240,7 @@
             this.nPocetSouprav.Size = new System.Drawing.Size(54, 30);
             this.nPocetSouprav.TabIndex = 13;
             this.nPocetSouprav.Value = new decimal(new int[] {
-            2,
+            30,
             0,
             0,
             0});
@@ -274,7 +274,7 @@
             this.nKapacita.Size = new System.Drawing.Size(54, 30);
             this.nKapacita.TabIndex = 15;
             this.nKapacita.Value = new decimal(new int[] {
-            2,
+            70,
             0,
             0,
             0});
@@ -306,11 +306,11 @@
             // label9
             // 
             this.label9.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label9.Location = new System.Drawing.Point(63, 423);
+            this.label9.Location = new System.Drawing.Point(19, 423);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(182, 32);
+            this.label9.Size = new System.Drawing.Size(226, 32);
             this.label9.TabIndex = 18;
-            this.label9.Text = "Doba čekání ve stanici:";
+            this.label9.Text = "Doba čekání ve stanici [min]:";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // nDobaCekani
@@ -326,7 +326,7 @@
             this.nDobaCekani.Size = new System.Drawing.Size(54, 30);
             this.nDobaCekani.TabIndex = 19;
             this.nDobaCekani.Value = new decimal(new int[] {
-            3,
+            1,
             0,
             0,
             0});
@@ -346,14 +346,14 @@
             // 
             this.nFrekvenceLidi.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.nFrekvenceLidi.Location = new System.Drawing.Point(227, 223);
-            this.nFrekvenceLidi.Maximum = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
             this.nFrekvenceLidi.Name = "nFrekvenceLidi";
             this.nFrekvenceLidi.Size = new System.Drawing.Size(79, 30);
             this.nFrekvenceLidi.TabIndex = 21;
+            this.nFrekvenceLidi.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
             // 
             // MainGUI
             // 

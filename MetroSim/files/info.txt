@@ -1,0 +1,9 @@
+﻿špička ~60000 osob / h ~ 1200 lidí / m ve špičce
+rychlost ~ 38 km / h ~ 0.65 km / m 
+kapacita soupravy 1400 
+špička 90 souprav -> 30 na každé
+
+kapacita 70 -> 60 lidí / m spawn
+
+špička = 2x sedlo
+

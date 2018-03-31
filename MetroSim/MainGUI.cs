@@ -12,7 +12,7 @@ namespace MetroSim
         private Nastaveni nastaveni;
         private Model[] modely;
         private Random rand;
-        private static int POCET_MODELU = 50;
+        private static int POCET_MODELU = 10;
         private double prumerVysledku;
         private int dokoncenychVypoctu;
 
@@ -119,6 +119,7 @@ namespace MetroSim
             Console.WriteLine("konec " + vysledek);
             if(vysledek >= 0) //je platny = nedoslo k timeoutu
             {
+                vysledek -= nastaveni.casPrichodu;
                 prumerVysledku += ((double)vysledek / (double)POCET_MODELU);
             }
             

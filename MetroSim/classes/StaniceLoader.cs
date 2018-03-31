@@ -7,10 +7,9 @@ namespace MetroSim
 {
     class StaniceLoader
     {
-
         public static SortedList<string, Stanice> nactiStanice(string path)
         {
-            SortedList<string, Stanice> seznamStanic = new SortedList<string, Stanice>();
+            SortedList<string, Stanice> seznam = new SortedList<string, Stanice>();
             StreamReader sr = new StreamReader(path);
             string line;
             while((line = sr.ReadLine()) != null)
@@ -41,11 +40,10 @@ namespace MetroSim
                     }
                     string id = pismeno + jmeno.Substring(0, 3);
                     Stanice stanice = new Stanice(id, pismeno, jmeno, kilometr, jeKonecna, jePrestupni, prestupniPismeno, 2);
-                    seznamStanic.Add(id, stanice);
+                    seznam.Add(id, stanice);
                 }
             }
-            return seznamStanic;
+            return seznam;
         } 
-
     }
 }

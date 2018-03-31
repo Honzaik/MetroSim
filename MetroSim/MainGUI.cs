@@ -29,10 +29,7 @@ namespace MetroSim
             for(int i = 0; i < POCET_MODELU; i++)
             {
                 modely[i] = new Model(this, rand, "Model-" + i);
-                modely[i].init();
             }
-            //model = new Model(this);
-            //model.init();
             vyplnDropdownyANastaveni();
         }
 

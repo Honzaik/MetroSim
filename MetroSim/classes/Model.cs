@@ -5,11 +5,9 @@ namespace MetroSim
 {
     class Model
     {
-
         private SeznamStanic seznamStanic;
         private SortedList<int, Pasazer> seznamPasazeru;
         private SortedList<string, Souprava> seznamSouprav;
-        private SortedList<string, Stanice[]> konecneStanice;
         private Dictionary<string, int> pocetSouprav;
         private string settingsPath = "files/stanice.txt";
         private Kalendar kalendar;
@@ -28,6 +26,8 @@ namespace MetroSim
             this.rand = rand;
             this.gui = gui;
             this.id = id;
+            spawnerSouprav = new SpawnerSouprav(this, "spawner");
+            seznamStanic = new SeznamStanic(StaniceLoader.nactiStanice(settingsPath));
         }
 
         public Model(MainGUI gui, Random rand, string id, string settingsPath)
@@ -36,19 +36,8 @@ namespace MetroSim
             this.gui = gui;
             this.id = id;
             this.settingsPath = settingsPath;
-        }
-
-        public void init()
-        {
-            seznamStanic = new SeznamStanic(StaniceLoader.nactiStanice(settingsPath));
-
-            Console.WriteLine("Načteno " + seznamStanic.stanice.Count + " stanic");
-            Console.WriteLine("Počet linek: " + seznamStanic.pismenaLinek.Count);
-
-            setKonecneStanice();
-
-            najdiSousedy();
             spawnerSouprav = new SpawnerSouprav(this, "spawner");
+            seznamStanic = new SeznamStanic(StaniceLoader.nactiStanice(settingsPath));
         }
 
         public void reset()
@@ -89,50 +78,6 @@ namespace MetroSim
 
             naplanujSpawnSouprav();
             spawniOstatniPasazery(); //kolik za jednotku casu se spawne
-        }
-
-        private void setKonecneStanice()
-        {
-            konecneStanice = new SortedList<string, Stanice[]>();
-            foreach (KeyValuePair<string, Stanice> k in seznamStanic.stanice)
-            {
-                if (k.Value.jeKonecna)
-                {
-                    if (konecneStanice.ContainsKey(k.Value.pismeno)) //uz je najita jedna konecna stanice
-                    {
-                        Stanice[] stanice = konecneStanice[k.Value.pismeno];
-                        if(stanice[0] == null)
-                        {
-                            stanice[0] = k.Value;
-                        }
-                        else
-                        {
-                            stanice[1] = k.Value;
-                        }
-                    }
-                    else
-                    {
-                        Stanice[] stanice = new Stanice[2];
-                        if(k.Value.kilometr == 0)
-                        {
-                            stanice[0] = k.Value;
-                        }
-                        else
-                        {
-                            stanice[1] = k.Value;
-                        }
-                        konecneStanice.Add(k.Value.pismeno, stanice);
-                    }
-                }
-            }
-        }
-
-        private void najdiSousedy()
-        {
-            foreach(KeyValuePair<string, Stanice> k in seznamStanic.stanice)
-            {
-                k.Value.najdiSousedy(seznamStanic.stanice);
-            }
         }
 
         public SeznamStanic getSeznamStanic()
@@ -190,7 +135,7 @@ namespace MetroSim
 
         public void spawniCastSouprav()
         {
-            foreach (KeyValuePair<string, Stanice[]> k in konecneStanice)
+            foreach (KeyValuePair<string, Stanice[]> k in seznamStanic.konecneStanice)
             {
                 if (nastaveni.nastaveniLinek[k.Key].pocetSouprav > pocetSouprav[k.Key]) //jeste je potreba spawnout
                 {

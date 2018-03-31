@@ -16,7 +16,7 @@ namespace MetroSim
             switch (u.co)
             {
                 case TypUdalosti.spawnSouprav:
-                    Console.WriteLine("VOLAM SPAWN " + u.kdy);
+                    //Console.WriteLine("VOLAM SPAWN " + u.kdy);
                     model.spawniCastSouprav();
                     break;
             }

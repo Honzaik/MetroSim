@@ -1,0 +1,14 @@
+C:\Users\honza\MetroSim\MetroSim\bin\Release\stanice.txt
+C:\Users\honza\MetroSim\MetroSim\bin\Release\MetroSim.exe.config
+C:\Users\honza\MetroSim\MetroSim\bin\Release\MetroSim.exe.manifest
+C:\Users\honza\MetroSim\MetroSim\bin\Release\MetroSim.application
+C:\Users\honza\MetroSim\MetroSim\bin\Release\MetroSim.exe
+C:\Users\honza\MetroSim\MetroSim\bin\Release\MetroSim.pdb
+C:\Users\honza\MetroSim\MetroSim\obj\Release\MetroSim.MainGUI.resources
+C:\Users\honza\MetroSim\MetroSim\obj\Release\MetroSim.Properties.Resources.resources
+C:\Users\honza\MetroSim\MetroSim\obj\Release\MetroSim.csproj.GenerateResource.cache
+C:\Users\honza\MetroSim\MetroSim\obj\Release\MetroSim.csproj.CoreCompileInputs.cache
+C:\Users\honza\MetroSim\MetroSim\obj\Release\MetroSim.exe.manifest
+C:\Users\honza\MetroSim\MetroSim\obj\Release\MetroSim.application
+C:\Users\honza\MetroSim\MetroSim\obj\Release\MetroSim.exe
+C:\Users\honza\MetroSim\MetroSim\obj\Release\MetroSim.pdb

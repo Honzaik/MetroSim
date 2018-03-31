@@ -71,6 +71,7 @@ namespace MetroSim
                         {
                             model.jeKonec = true;
                         }
+                        model.removePasazer(this);
                         break;
                     }
                     setPristiStanice();

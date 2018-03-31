@@ -9,12 +9,15 @@ namespace MetroSim
     {
 
         //private Model model;
-        private Nastaveni nastaveni;
+        private Nastaveni[] nastaveni;
         private Model[] modely;
-        private Random rand;
-        private static int POCET_MODELU = 10;
+        private static int POCET_MODELU_PAR = 4;
+        private static int POCET_MODELU_CELKEM = 16;
         private double prumerVysledku;
         private int dokoncenychVypoctu;
+        private string pocatecniStaniceId;
+        private string konecnaStaniceId;
+
 
         public MainGUI()
         {
@@ -23,12 +26,12 @@ namespace MetroSim
 
         private void MainGUI_load(object sender, EventArgs e)
         {
-            rand = new Random();
-            nastaveni = new Nastaveni();
-            modely = new Model[POCET_MODELU];
-            for(int i = 0; i < POCET_MODELU; i++)
+            nastaveni = new Nastaveni[POCET_MODELU_PAR];
+            modely = new Model[POCET_MODELU_PAR];
+            for(int i = 0; i < POCET_MODELU_PAR; i++)
             {
-                modely[i] = new Model(this, rand, "Model-" + i);
+                nastaveni[i] = new Nastaveni();
+                modely[i] = new Model(this, "Model-" + i);
             }
             vyplnDropdownyANastaveni();
         }
@@ -47,7 +50,11 @@ namespace MetroSim
             {
                 cLinky.Items.Add(k.Key);
                 NastaveniLinky nl = new NastaveniLinky(k.Key, (int) nPocetSouprav.Value, (float) nRychlost.Value, (int) nKapacita.Value, (int) nDobaCekani.Value);
-                nastaveni.pridejNastaveniLinky(nl);
+                for(int i = 0; i < POCET_MODELU_PAR; i++)
+                {
+                    nastaveni[i].pridejNastaveniLinky(nl);
+                }
+                
             }
 
             cLinky.SelectedIndex = 0;
@@ -58,22 +65,34 @@ namespace MetroSim
             prumerVysledku = 0;
             dokoncenychVypoctu = 0;
 
+            pocatecniStaniceId = (string)((CustomCBItem)cZacatek.SelectedItem).Value;
+            konecnaStaniceId = (string)((CustomCBItem)cKonec.SelectedItem).Value;
+
             lVysledek.Visible = false;
             pLoading.Visible = true;
             bStart.Enabled = false;
 
-            for(int i = 0; i < POCET_MODELU; i++)
-            {
-                nastaveni.pocatecniStanice = modely[i].getSeznamStanic().stanice[(string)((CustomCBItem)cZacatek.SelectedItem).Value];
-                nastaveni.konecnaStanice = modely[i].getSeznamStanic().stanice[(string)((CustomCBItem)cKonec.SelectedItem).Value];
 
-                nastaveni.frekvenceLidi = (int)nFrekvenceLidi.Value;
-                nastaveni.casPrichodu = (int)nCasPrichodu.Value;
-                modely[i].reset();
-                modely[i].nactiNastaveni(nastaveni);
+            for(int i = 0; i < POCET_MODELU_PAR; i++)
+            {
+                nastaveni[i].pocatecniStanice = modely[i].getSeznamStanic().stanice[pocatecniStaniceId];
+                nastaveni[i].konecnaStanice = modely[i].getSeznamStanic().stanice[konecnaStaniceId];
+                nastaveni[i].frekvenceLidi = (int)nFrekvenceLidi.Value;
+                nastaveni[i].casPrichodu = (int)nCasPrichodu.Value;
             }
 
-            for(int i = 0; i < POCET_MODELU; i++)
+            spustSeriiVypoctu();
+        }
+
+        private void spustSeriiVypoctu()
+        {
+            for (int i = 0; i < POCET_MODELU_PAR; i++)
+            {
+                modely[i].reset();
+                modely[i].nactiNastaveni(nastaveni[i]);
+            }
+
+            for (int i = 0; i < POCET_MODELU_PAR; i++)
             {
                 (new Thread(modely[i].spocitej)).Start();
             }
@@ -116,19 +135,25 @@ namespace MetroSim
             Console.WriteLine("konec " + vysledek);
             if(vysledek >= 0) //je platny = nedoslo k timeoutu
             {
-                vysledek -= nastaveni.casPrichodu;
-                prumerVysledku += ((double)vysledek / (double)POCET_MODELU);
+                vysledek -= nastaveni[0].casPrichodu;
+                prumerVysledku += ((double)vysledek / (double)POCET_MODELU_CELKEM);
             }
             
             dokoncenychVypoctu++;
-            if(dokoncenychVypoctu == POCET_MODELU)
+            if(dokoncenychVypoctu == POCET_MODELU_CELKEM)
             {
                 setLoadingVisibility(false);
                 showVysledek(prumerVysledku.ToString());
             }
             else
             {
-                Console.WriteLine("JESTE CHYBI " + (POCET_MODELU - dokoncenychVypoctu));
+                Console.WriteLine("JESTE CHYBI " + (POCET_MODELU_CELKEM - dokoncenychVypoctu));
+                if (dokoncenychVypoctu % POCET_MODELU_PAR == 0)
+                {
+                    Console.WriteLine("SPUSTIM SERII VYPOCTU");
+                    spustSeriiVypoctu();
+                }
+                
             }
             
         }
@@ -136,7 +161,7 @@ namespace MetroSim
         private void cLinky_SelectedIndexChanged(object sender, EventArgs e)
         {
             //nacte ulozene nastaveni linky
-            NastaveniLinky nl = nastaveni.nastaveniLinek[(string) cLinky.SelectedItem];
+            NastaveniLinky nl = nastaveni[0].nastaveniLinek[(string) cLinky.SelectedItem];
             nKapacita.Value = nl.kapacitaSouprav;
             nPocetSouprav.Value = nl.pocetSouprav;
             nRychlost.Value = (decimal) nl.rychlostSouprav;
@@ -145,21 +170,24 @@ namespace MetroSim
         private void nastaveni_ValueChanged(object sender, EventArgs e)
         {
             NumericUpDown nd = (NumericUpDown)sender;
-            NastaveniLinky nl = nastaveni.nastaveniLinek[(string) cLinky.SelectedItem];
-            switch (nd.Name)
+            for(int i = 0; i < POCET_MODELU_PAR; i++)
             {
-                case "nRychlost":
-                    nl.rychlostSouprav = (float) nd.Value;
-                    break;
-                case "nPocetSouprav":
-                    nl.pocetSouprav = (int) nd.Value;
-                    break;
-                case "nKapacita":
-                    nl.kapacitaSouprav = (int)nd.Value;
-                    break;
-                case "nDobaCekani":
-                    nl.dobaCekaniVeStanici = (int)nd.Value;
-                    break;
+                NastaveniLinky nl = nastaveni[i].nastaveniLinek[(string)cLinky.SelectedItem];
+                switch (nd.Name)
+                {
+                    case "nRychlost":
+                        nl.rychlostSouprav = (float)nd.Value;
+                        break;
+                    case "nPocetSouprav":
+                        nl.pocetSouprav = (int)nd.Value;
+                        break;
+                    case "nKapacita":
+                        nl.kapacitaSouprav = (int)nd.Value;
+                        break;
+                    case "nDobaCekani":
+                        nl.dobaCekaniVeStanici = (int)nd.Value;
+                        break;
+                }
             }
         }
     }

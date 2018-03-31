@@ -1,3 +1,9 @@
 .vs/
 MetroSim/obj/Debug
 MetroSim/bin/Debug
+MetroSim/Properties
+MetroSim/publish
+MetroSim/MetroSim_TemporaryKey.pfx
+*.log
+*.aux
+*.gz

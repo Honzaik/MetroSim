@@ -9,7 +9,7 @@ namespace MetroSim
         private SortedList<int, Pasazer> seznamPasazeru;
         private SortedList<string, Souprava> seznamSouprav;
         private Dictionary<string, int> pocetSouprav;
-        private string settingsPath = "files/stanice.txt";
+        private string settingsPath = "stanice.txt";
         private Kalendar kalendar;
         private int cas;
         public int vysledek;
@@ -19,20 +19,24 @@ namespace MetroSim
         private Random rand;
         private SpawnerSouprav spawnerSouprav;
         private static int SPAWN_SOUPRAV_MEZICAS = 5;
+        private static int SPAWN_LIDI_MEZICAS = 30;
         private string id;
+        private int pocetVygenerovanychPasazeru = 0;
 
-        public Model(MainGUI gui, Random rand, string id)
+        public Model(MainGUI gui, string id)
         {
-            this.rand = rand;
+            int seed = this.GetHashCode();
+            this.rand = new Random(seed);
+            Console.WriteLine("SEED : " + seed);
             this.gui = gui;
             this.id = id;
             spawnerSouprav = new SpawnerSouprav(this, "spawner");
             seznamStanic = new SeznamStanic(StaniceLoader.nactiStanice(settingsPath));
         }
 
-        public Model(MainGUI gui, Random rand, string id, string settingsPath)
+        public Model(MainGUI gui, string id, string settingsPath)
         {
-            this.rand = rand;
+            this.rand = new Random(Environment.TickCount);
             this.gui = gui;
             this.id = id;
             this.settingsPath = settingsPath;
@@ -88,12 +92,13 @@ namespace MetroSim
         public void pridejHlavnihoPasazera(Stanice zacatek, Stanice konec, int start)
         {
             Pasazer hlavni = new Pasazer(this, "0", zacatek, konec, start);
-            seznamPasazeru.Add(seznamPasazeru.Count, hlavni);
+            seznamPasazeru.Add(pocetVygenerovanychPasazeru, hlavni);
+            pocetVygenerovanychPasazeru++;
             Udalost prichodPrvnihoPasazera = new Udalost(start, hlavni, TypUdalosti.prichodDoStanice);
             kalendar.pridejUdalost(prichodPrvnihoPasazera);
         }
 
-        private Pasazer vygenerujPasazera()
+        private Pasazer vygenerujPasazera(int casPrichodu)
         {
             int pocatecniStanice = rand.Next(0, seznamStanic.stanice.Count);
             int konecnaStanice = rand.Next(0, seznamStanic.stanice.Count);
@@ -101,23 +106,20 @@ namespace MetroSim
             {
                 konecnaStanice = rand.Next(0, seznamStanic.stanice.Count); //aby se generovali pasazeri, kteri nikam nejedou v podstate
             }
-            Pasazer p = new Pasazer(this, seznamPasazeru.Count + "", seznamStanic.stanice.Values[pocatecniStanice], seznamStanic.stanice.Values[konecnaStanice], cas);
+            Pasazer p = new Pasazer(this, pocetVygenerovanychPasazeru + "", seznamStanic.stanice.Values[pocatecniStanice], seznamStanic.stanice.Values[konecnaStanice], casPrichodu);
             return p;
         }
 
-        private void spawniOstatniPasazery()
+        private void spawniOstatniPasazery() //kazdejch 60 spawni lidi
         {
-            int posledniSpawnCas = seznamPasazeru[seznamPasazeru.Count-1].start; //cas kdy se naposledy spawnovali novi lide
-            int pocetLidiKVygenerovani = (cas - posledniSpawnCas) * nastaveni.frekvenceLidi;
-            if(pocetLidiKVygenerovani == 0) //zacatek napřiklad (vždycky nekoho vygeneruj, když se změní čas)
+            int pocetLidiKVygenerovani = SPAWN_LIDI_MEZICAS * nastaveni.frekvenceLidi;
+            for (int i = 0; i < pocetLidiKVygenerovani; i++)
             {
-                pocetLidiKVygenerovani = nastaveni.frekvenceLidi;
-            }
-            for(int i = 0; i < pocetLidiKVygenerovani; i++)
-            {
-                Pasazer p = vygenerujPasazera();
-                seznamPasazeru.Add(seznamPasazeru.Count, p);
-                Udalost prichodPasazera = new Udalost(cas, p, TypUdalosti.prichodDoStanice);
+                int casPrichodu = rand.Next(cas, cas + SPAWN_LIDI_MEZICAS);
+                Pasazer p = vygenerujPasazera(casPrichodu);
+                pocetVygenerovanychPasazeru++;
+                seznamPasazeru.Add(pocetVygenerovanychPasazeru, p);
+                Udalost prichodPasazera = new Udalost(p.start, p, TypUdalosti.prichodDoStanice);
                 kalendar.pridejUdalost(prichodPasazera);
             }
         }
@@ -176,7 +178,7 @@ namespace MetroSim
             for(int i = 0; i < maxPocetSouprav/2; i++)
             {
                 kalendar.pridejUdalost(new Udalost(SPAWN_SOUPRAV_MEZICAS * i, spawnerSouprav, TypUdalosti.spawnSouprav));
-                Console.WriteLine("BUDU SPAWNOVAT SOUPRAVY V " + SPAWN_SOUPRAV_MEZICAS * i);
+                //Console.WriteLine("BUDU SPAWNOVAT SOUPRAVY V " + SPAWN_SOUPRAV_MEZICAS * i);
             }
         }
 
@@ -186,11 +188,6 @@ namespace MetroSim
             bool spawnNew = false;
             while (!kalendar.jePrazdny() && !jeKonec)
             {
-                if (spawnNew && cas > 0 && cas % 5000 == 0) //debug
-                {
-                    Console.WriteLine("stale bezim " + this.id + " @ " + cas);
-                }
-
                 Udalost zpracovavanaUdalost = kalendar.vratNejaktualnejsi();
                 if(zpracovavanaUdalost.kdy > cas) //pokud se nekam posunul cas -> spawni nove lidi
                 {
@@ -201,7 +198,7 @@ namespace MetroSim
                     spawnNew = false;
                 }
                 cas = zpracovavanaUdalost.kdy;
-                if (spawnNew)
+                if (spawnNew && cas % SPAWN_LIDI_MEZICAS == 0)
                 {
                     spawniOstatniPasazery();
                 }
@@ -228,6 +225,12 @@ namespace MetroSim
         public int getCas()
         {
             return cas;
+        }
+
+        public void removePasazer(Pasazer p)
+        {
+            seznamPasazeru.Remove(Int32.Parse(p.id));
+            //Console.WriteLine("removing " + p.id);
         }
     }
 }

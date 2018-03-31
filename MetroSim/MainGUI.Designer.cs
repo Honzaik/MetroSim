@@ -97,9 +97,9 @@
             // lVysledek
             // 
             this.lVysledek.Font = new System.Drawing.Font("Comic Sans MS", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lVysledek.Location = new System.Drawing.Point(12, 591);
+            this.lVysledek.Location = new System.Drawing.Point(12, 577);
             this.lVysledek.Name = "lVysledek";
-            this.lVysledek.Size = new System.Drawing.Size(366, 38);
+            this.lVysledek.Size = new System.Drawing.Size(366, 60);
             this.lVysledek.TabIndex = 3;
             this.lVysledek.Text = "Vysledek";
             this.lVysledek.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

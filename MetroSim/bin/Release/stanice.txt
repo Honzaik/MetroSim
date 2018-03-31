@@ -1,0 +1,64 @@
+﻿#[pismeno], [nazev], [km], [je konecna], [je prestupni], [prestupniPismeno]
+B, Černý Most, 0, 1
+B, Rajská zahrada, 1.2
+B, Hloubětín, 2.9
+B, Kolbenova, 4.5
+B, Vysočanská, 5.6
+B, Českomoravská, 6.4
+B, Palmovka, 7.7
+B, Invalidovna, 8.8
+B, Křižíkova, 9.8
+B, Florenc, 10.9, 0, 1, C
+B, Náměstí Republiky, 11.4
+B, Můstek, 12.2, 0, 1, A
+B, Národní třída, 12.7
+B, Karlovo náměstí, 13.4
+B, Anděl, 14.6
+B, Smíchovské nádraží, 15.7
+B, Radlická, 17.9
+B, Jinonice, 19.3
+B, Nové Butovice, 20.7
+B, Hůrka, 21.3
+B, Lužiny, 22.5
+B, Luka, 23.2
+B, Stodůlky, 24.3
+B, Zličín, 25.7, 1
+########################
+C, Háje, 0, 1
+C, Opatov, 1.3
+C, Chodov, 2.7
+C, Rozptyly, 3.9
+C, Kačerov, 5.2
+C, Budějovická, 6.1
+C, Pankrác, 7.1
+C, Pražského povstání, 7.8
+C, Vyšehrad, 8.6
+C, I. P. Pavlova, 9.9
+C, Muzeum, 10.6, 0, 1, A
+C, Hlavní nádraží, 11
+C, Florenc, 11.9, 0, 1, B
+C, Vltavská, 13.1
+C, Nádraží Holešovice, 14.1
+C, Kobylisy, 16.9
+C, Ládví, 18
+C, Střížkov, 19.6
+C, Prosek, 20.6
+C, Letňany, 22.4, 1
+#######################
+A, Nemocnice Motol, 0, 1
+A, Petřiny, 1.5
+A, Nádraží Veleslavín, 2.7
+A, Bořislavska, 3.8
+A, Dejvická, 6
+A, Hradčanská, 6.8
+A, Malostranská, 7.6
+A, Staroměstská, 8.4
+A, Můstek, 9.1, 0, 1, B
+A, Muzeum, 9.8, 0, 1, C
+A, Náměstí Míru, 10.6
+A, Jiřího z Poděbrad, 11.5
+A, Flora, 12.3
+A, Želivského, 13.3
+A, Strašnická, 14.6
+A, Skalka, 15.9
+A, Depo Hostivař, 17, 1

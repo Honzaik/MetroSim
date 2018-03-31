@@ -25,9 +25,7 @@ namespace MetroSim
 
         public Model(MainGUI gui, string id)
         {
-            int seed = this.GetHashCode();
-            this.rand = new Random(seed);
-            Console.WriteLine("SEED : " + seed);
+            this.rand = new Random(this.GetHashCode());
             this.gui = gui;
             this.id = id;
             spawnerSouprav = new SpawnerSouprav(this, "spawner");
@@ -36,7 +34,7 @@ namespace MetroSim
 
         public Model(MainGUI gui, string id, string settingsPath)
         {
-            this.rand = new Random(Environment.TickCount);
+            this.rand = new Random(this.GetHashCode());
             this.gui = gui;
             this.id = id;
             this.settingsPath = settingsPath;

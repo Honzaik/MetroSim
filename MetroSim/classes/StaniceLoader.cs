@@ -14,7 +14,7 @@ namespace MetroSim
             string line;
             while((line = sr.ReadLine()) != null)
             {
-                if(line[0] != '#') // není komentář
+                if(line.Length > 0 && line[0] != '#') // není prázdný řádek ani komentář
                 {
                     string[] data = line.Split(',');
                     string pismeno = data[0].Trim();

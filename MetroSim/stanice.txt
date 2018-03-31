@@ -1,4 +1,4 @@
-﻿#[pismeno], [nazev], [km], [je konecna], [je prestupni], [prestupniPismeno]
+﻿#[pismeno], [nazev], [km], [je konecna], [je prestupni], [prestupni pismeno]
 B, Černý Most, 0, 1
 B, Rajská zahrada, 1.2
 B, Hloubětín, 2.9

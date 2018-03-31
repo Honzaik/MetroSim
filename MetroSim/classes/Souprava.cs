@@ -64,12 +64,12 @@ namespace MetroSim
             {
                 case TypUdalosti.prijezdDoStanice:
                     //if(pismeno == "A") Console.WriteLine("souprava " + id + " prijela do stanice " + aktualniStanice.jmeno + " (" + aktualniStanice.pismeno + ") cas " + u.kdy);
-                    vystupovani();
-                    nastupovani();
+                    vystupovani();    
                     model.pridejDoKalendare(new Udalost(u.kdy + dobaCekaniVeStanici, this, TypUdalosti.vyjezdZeStanice));
 
                     break;
                 case TypUdalosti.vyjezdZeStanice:
+                    nastupovani();
                     jedDoDalsiStanice();
                     break;
             }

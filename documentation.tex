@@ -66,8 +66,25 @@ Po nastavení stačí stisknout tlačítko "Simuluj" a počkat na výsledek, kte
 \includegraphics[scale=0.5]{obr1}
 \caption{GUI programu}
 \end{figure}
+
 \section{Jak program funguje (algoritmus)}
-Tak
+
+Program je vlastně obyčejná diskrétní simulace, tudiž algoritmus velice jednoduchý na vysvětlení. Zhruba funguje takto:
+
+\begin{itemize}
+    \item Simulujeme jízdu souprav mezi stanicemi. Soupravy vyrážejí z konečných stanic po párech na každé lince v čase 0. Pokud je na lince více souprav (což je obvyklý případ), tak další pár vyráží po 5 minutách.
+    \item Každou minutu nagenerujeme "Hustota lidí" počet lídí, kteří pojedou z náhodné stanice A do náhodné stanice B.
+    \item V čase "Čas příchodu" vytvoříme hlavního pasažéra, který bude absolvovat trasu dle nastavení.
+    \item Každý pasažér se snaží co nejkratší cestou dostat do své cílové stanice. Cestu má určenou tímto algoritmem:
+        \begin{enumerate}
+            \item Pokud je cílová stanice na stejné lince jako aktuální stanice, kde se pasažér nachází, tak pasažér nastoupí do soupravy, která jede správným směrem, a nevystoupí dokud nedorazí do cíle.
+            \item Pokud neplatí 1., tak pasažér dojede do nejbližší přestupní stanice na danou linku, na které se nachází cílová stanice. Poté pokračuje krokem 1.
+        \end{enumerate} 
+    \item Simulace končí, když hlavní pasažér dorazí do cílové stanice.
+\end{itemize}
+
+Jelikož je generování ostatních pasažérů náhodné (odkud kam jedou), tak se výsledky různých simulací mohou výrazně lišit. Proto program provede v základním nastavení 16 simulací se stejným nastavením a zprůměruje výsledek.
+
 \section{Implementace}
 
 \end{document}

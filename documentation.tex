@@ -4,12 +4,9 @@
 \usepackage{url}
 \usepackage{amsmath}
 \usepackage{graphicx}
-\usepackage[
-backend=biber,
-style=alphabetic,
-sorting=ynt
-]{biblatex}
-\addbibresource{zdroje.bib}
+\usepackage{biblatex}
+\bibliography{zdroje}
+
 \graphicspath{ {doc-img/} }
 
 \title{OOP Zápočtový program - Diskrétní simulace metra}
@@ -214,11 +211,9 @@ Výsledky simulací jsou po zadaní správných parametrů velice blízké reali
 Například při měření doby cesty ze stanice Českomoravská do stanice Křižikova v čase příchodu nastaveném na 500 min je doba cesta spočítána na 7,4 minuty. Což odpovídá reálné hodnotě ze stránky \url{https://jizdnirady.idnes.cz}, ve které cesta trvá zhruba 5-6 minut, a to se nepočítá čekání ve stanici na metro.
 
 Nebo cesta ze stanice Malostranská do stanice Hloubětín by měla trvat podle simulace 29,9 minut. A dle IDOSu má trvat 29 minut.
-
 \section{Závěr}
 Výsledky simulací někdy výrazně se liší kvůli náhodnému generování lidí, také kvůli tomu, že se například nebere v potaz různé změny počtu souprav, jejich rychlosti v různých částech dne.
-\cite{einstein}
-Na druhou stranu, pokud jsou správně navrženy vstupní hodnoty, tak výsledky simulací odpovídají realitě.
+Na druhou stranu, pokud jsou správně navrženy vstupní hodnoty, tak výsledky simulací odpovídají realitě.\nocite{*}
 \section{Zdroje}
-\printbibliography
+\printbibliography[heading=none]
 \end{document}

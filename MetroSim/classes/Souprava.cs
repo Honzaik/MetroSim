@@ -11,9 +11,9 @@ namespace MetroSim
         private int kapacita;
         private Stanice aktualniStanice;
         private List<Pasazer> seznamPasazeru;
-        private int dobaCekaniVeStanici;
+        private float dobaCekaniVeStanici;
 
-        public Souprava(Model model, string id, string pismeno, bool smerVice, float rychlost, int kapacita, int dobaCekaniVeStanici, Stanice pocatecniStanice)
+        public Souprava(Model model, string id, string pismeno, bool smerVice, float rychlost, int kapacita, float dobaCekaniVeStanici, Stanice pocatecniStanice)
         {
             this.model = model;
             this.id = id;
@@ -37,7 +37,7 @@ namespace MetroSim
 
             vzdalenostPristiStanice = aktualniStanice.vzdalenostOdSouseda(pristiStaniceIndex);
 
-            int casPrijezdu = model.getCas() + (int)(vzdalenostPristiStanice / rychlost);
+            float casPrijezdu = model.getCas() + (vzdalenostPristiStanice / rychlost);
             model.pridejDoKalendare(new Udalost(casPrijezdu, this, TypUdalosti.prijezdDoStanice));
             if (aktualniStanice.jeKonecna)
             {

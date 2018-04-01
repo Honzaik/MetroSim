@@ -13,7 +13,7 @@ namespace MetroSim
         private Model[] modely;
         private static int POCET_MODELU_PAR = 4;
         private static int POCET_MODELU_CELKEM = 16;
-        private double prumerVysledku;
+        private float prumerVysledku;
         private int dokoncenychVypoctu;
         private string pocatecniStaniceId;
         private string konecnaStaniceId;
@@ -49,7 +49,7 @@ namespace MetroSim
             foreach(KeyValuePair<string, string> k in modely[0].getSeznamStanic().pismenaLinek)
             {
                 cLinky.Items.Add(k.Key);
-                NastaveniLinky nl = new NastaveniLinky(k.Key, (int) nPocetSouprav.Value, (float) nRychlost.Value, (int) nKapacita.Value, (int) nDobaCekani.Value);
+                NastaveniLinky nl = new NastaveniLinky(k.Key, (int) nPocetSouprav.Value, (float) nRychlost.Value, (int) nKapacita.Value, (float) nDobaCekani.Value);
                 for(int i = 0; i < POCET_MODELU_PAR; i++)
                 {
                     nastaveni[i].pridejNastaveniLinky(nl);
@@ -130,19 +130,20 @@ namespace MetroSim
             }
         }
     
-        public void finished(int vysledek)
+        public void finished(float vysledek)
         {
             Console.WriteLine("konec " + vysledek);
             if(vysledek >= 0) //je platny = nedoslo k timeoutu
             {
                 vysledek -= nastaveni[0].casPrichodu;
-                prumerVysledku += ((double)vysledek / (double)POCET_MODELU_CELKEM);
+                prumerVysledku += vysledek / (float)POCET_MODELU_CELKEM;
             }
             
             dokoncenychVypoctu++;
             if(dokoncenychVypoctu == POCET_MODELU_CELKEM)
             {
                 setLoadingVisibility(false);
+                prumerVysledku = (float) Math.Round(prumerVysledku * 10) / 10;
                 showVysledek(prumerVysledku.ToString());
             }
             else
@@ -185,7 +186,7 @@ namespace MetroSim
                         nl.kapacitaSouprav = (int)nd.Value;
                         break;
                     case "nDobaCekani":
-                        nl.dobaCekaniVeStanici = (int)nd.Value;
+                        nl.dobaCekaniVeStanici = (float)nd.Value;
                         break;
                 }
             }

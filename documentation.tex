@@ -4,6 +4,12 @@
 \usepackage{url}
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage[
+backend=biber,
+style=alphabetic,
+sorting=ynt
+]{biblatex}
+\addbibresource{zdroje.bib}
 \graphicspath{ {doc-img/} }
 
 \title{OOP Zápočtový program - Diskrétní simulace metra}
@@ -155,7 +161,7 @@ Důležité proměnné:
     \item \texttt{Kalendar kalendar}: Odkaz na třídu \texttt{Kalendar}.
     \item \texttt{Nastaveni nastaveni}: Odkaz na třídu \texttt{Nastaveni}, která uchovává informace o daném nastavení modelu zadaném v GUI.
     \item \texttt{MainGUI gui}: Odkaz na třídu \texttt{MainGUI}, která se stará o uživatelské rozhraní programu (o ní později).
-    \item \texttt{int cas}: Čas celé simulace.
+    \item \texttt{float cas}: Čas celé simulace.
 \end{itemize}
 
 Důležíté metody:
@@ -197,8 +203,22 @@ Důležité metody:
 Tato třída obsahuje seznam stanic pro model, ale také i speciální seznamy jako seznam konečných stanic. Je to taková pomocná třída, která obsahuje informace o všech stanicích metra.
 
 \subsubsection{Třida \texttt{StaniceLoader}}
-Tato třída slouží jako parser souboru \texttt{stanice.txt} a vytváří z něj seznam stanic, který se poté ukládá do třídy \texttt{SeznamStanic}.
+Tato třída slouží jako parser souboru \texttt{stanice.txt} a vytváří z něj seznam stanic, který se poté ukládá do třídy \texttt{SeznamStanic}. Zde se nachází konstanta \texttt{int DOBA\_PRESTUPU}, která je základně nastavena na hodnotu 2.
+
 \subsubsection{Třida \texttt{CustomCBItem}}
 Tato třída je vytvořena pro uložení více údajů v itemu třídy \texttt{ComboBox}, která se používá v uživatelském rozhraní pro výběr stanic.
 
+\section{Výsledky simulací}
+Výsledky simulací jsou po zadaní správných parametrů velice blízké realitě. 
+
+Například při měření doby cesty ze stanice Českomoravská do stanice Křižikova v čase příchodu nastaveném na 500 min je doba cesta spočítána na 7,4 minuty. Což odpovídá reálné hodnotě ze stránky \url{https://jizdnirady.idnes.cz}, ve které cesta trvá zhruba 5-6 minut, a to se nepočítá čekání ve stanici na metro.
+
+Nebo cesta ze stanice Malostranská do stanice Hloubětín by měla trvat podle simulace 29,9 minut. A dle IDOSu má trvat 29 minut.
+
+\section{Závěr}
+Výsledky simulací někdy výrazně se liší kvůli náhodnému generování lidí, také kvůli tomu, že se například nebere v potaz různé změny počtu souprav, jejich rychlosti v různých částech dne.
+\cite{einstein}
+Na druhou stranu, pokud jsou správně navrženy vstupní hodnoty, tak výsledky simulací odpovídají realitě.
+\section{Zdroje}
+\printbibliography
 \end{document}

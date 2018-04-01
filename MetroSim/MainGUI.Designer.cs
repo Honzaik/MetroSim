@@ -315,10 +315,16 @@
             // 
             // nDobaCekani
             // 
+            this.nDobaCekani.DecimalPlaces = 1;
             this.nDobaCekani.Font = new System.Drawing.Font("Comic Sans MS", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.nDobaCekani.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.nDobaCekani.Location = new System.Drawing.Point(251, 423);
             this.nDobaCekani.Maximum = new decimal(new int[] {
-            200,
+            20,
             0,
             0,
             0});
@@ -326,10 +332,10 @@
             this.nDobaCekani.Size = new System.Drawing.Size(54, 30);
             this.nDobaCekani.TabIndex = 19;
             this.nDobaCekani.Value = new decimal(new int[] {
-            1,
+            5,
             0,
             0,
-            0});
+            65536});
             this.nDobaCekani.ValueChanged += new System.EventHandler(this.nastaveni_ValueChanged);
             // 
             // label10

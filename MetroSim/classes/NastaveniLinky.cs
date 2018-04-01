@@ -6,10 +6,10 @@
         public int pocetSouprav;
         public float rychlostSouprav;
         public int kapacitaSouprav;
-        public int dobaCekaniVeStanici;
+        public float dobaCekaniVeStanici;
         
 
-        public NastaveniLinky(string linka, int pocetSouprav, float rychlostSouprav, int kapacitaSouprav, int dobaCekaniVeStanici)
+        public NastaveniLinky(string linka, int pocetSouprav, float rychlostSouprav, int kapacitaSouprav, float dobaCekaniVeStanici)
         {
             this.linka = linka;
             this.pocetSouprav = pocetSouprav;

@@ -9,9 +9,9 @@ namespace MetroSim
         public Stanice sKonec;
         private Stanice aktualniStanice;
         private Stanice pristiStanice;
-        public int start;
+        public float start;
 
-        public Pasazer(Model model, string id, Stanice sZacatek, Stanice sKonec, int start)
+        public Pasazer(Model model, string id, Stanice sZacatek, Stanice sKonec, float start)
         {
             this.model = model;
             this.id = id;

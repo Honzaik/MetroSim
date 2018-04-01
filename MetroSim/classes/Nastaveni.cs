@@ -6,7 +6,7 @@ namespace MetroSim
     {
 
         public SortedList<string, NastaveniLinky> nastaveniLinek;
-        public int casPrichodu;
+        public float casPrichodu;
         public Stanice pocatecniStanice;
         public Stanice konecnaStanice;
         public int frekvenceLidi;

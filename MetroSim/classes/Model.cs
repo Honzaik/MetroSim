@@ -11,8 +11,8 @@ namespace MetroSim
         private Dictionary<string, int> pocetSouprav;
         private string settingsPath = "stanice.txt";
         private Kalendar kalendar;
-        private int cas;
-        public int vysledek;
+        private float cas;
+        private float vysledek;
         private MainGUI gui;
         public bool jeKonec;
         private Nastaveni nastaveni;
@@ -85,7 +85,7 @@ namespace MetroSim
             return seznamStanic;
         }
 
-        public void pridejHlavnihoPasazera(Stanice zacatek, Stanice konec, int start)
+        public void pridejHlavnihoPasazera(Stanice zacatek, Stanice konec, float start)
         {
             Pasazer hlavni = new Pasazer(this, "0", zacatek, konec, start);
             seznamPasazeru.Add(pocetVygenerovanychPasazeru, hlavni);
@@ -106,12 +106,12 @@ namespace MetroSim
             return p;
         }
 
-        private void spawniOstatniPasazery() //kazdejch 60 spawni lidi
+        private void spawniOstatniPasazery() //kazdejch SPAWN_LIDI_MEZICAS spawni lidi
         {
             int pocetLidiKVygenerovani = SPAWN_LIDI_MEZICAS * nastaveni.frekvenceLidi;
             for (int i = 0; i < pocetLidiKVygenerovani; i++)
             {
-                int casPrichodu = rand.Next(cas, cas + SPAWN_LIDI_MEZICAS);
+                int casPrichodu = rand.Next((int)cas, (int)cas + SPAWN_LIDI_MEZICAS);
                 Pasazer p = vygenerujPasazera(casPrichodu);
                 pocetVygenerovanychPasazeru++;
                 seznamPasazeru.Add(pocetVygenerovanychPasazeru, p);
@@ -120,7 +120,7 @@ namespace MetroSim
             }
         }
 
-        private void spawniSoupravu(Souprava s, int cas) //prida soupravu do kalendar
+        private void spawniSoupravu(Souprava s, float cas) //prida soupravu do kalendar
         {
             kalendar.pridejUdalost(new Udalost(cas, s, TypUdalosti.prijezdDoStanice));
         }
@@ -218,7 +218,7 @@ namespace MetroSim
             kalendar.pridejUdalost(u);
         }
 
-        public int getCas()
+        public float getCas()
         {
             return cas;
         }

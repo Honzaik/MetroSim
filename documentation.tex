@@ -138,12 +138,67 @@ Jak již plyne z názvu třídy, toto je třída pro soupravu metra. Obsahuje in
 Asi druhá nejhlavnější třída (po třídě \texttt{Model}) v celém programu co se týče samotného provedení simulace. Obsahuje informace a metody o příslušném pasažérovi (například aktuální stanici). Důležité metody jsou 2:
 \begin{itemize}
     \item \texttt{void setPristiStanice()}: Pomocí výše zmíněného algoritmu nastaví pasažérovi jeho příští stanici.
-    \item \texttt{void zpracuj(Udalost udalost)}: Tato metoda zpracovává pouze jednu událost \texttt{prichodDoStanice}. Zjistí, jestli aktuální stanice je konečná. Pokud ano, tak smaže pasažéra, pokud ne, tak zavolá metodu \texttt{void setPristiStanice()}. Poté ještě zjistí, zda se pasažér nachází na přestupná stanici. Pokud ano, tak naplánuje novou událost \texttt{prichodDoStanice} do druhé přestupní stanice za určitou dobu, která je určena parametrem \texttt{DOBA\_PRESTUPU} ve třídě \texttt{StaniceLoader} (o ní později). Pokud ne, tak zavolá metodu \texttt{void zaradNaNastupiste(Pasazer p, Stanice pristiStanice)}, která je metodou třídy \texttt{Stanice} (také později).
+    \item \texttt{void zpracuj(Udalost udalost)}: Tato metoda zpracovává pouze jednu událost \texttt{prichodDoStanice}. Zjistí, jestli aktuální stanice je konečná. Pokud ano, tak smaže pasažéra, pokud ne, tak zavolá metodu \texttt{void setPristiStanice()}. Poté ještě zjistí, zda se pasažér nachází na přestupná stanici. Pokud ano, tak naplánuje novou událost \texttt{prichodDoStanice} do druhé přestupní stanice za určitou dobu, která je určena parametrem \texttt{int DOBA\_PRESTUPU} ve třídě \texttt{StaniceLoader} (o ní později). Pokud ne, tak zavolá metodu \texttt{void zaradNaNastupiste(Pasazer p, Stanice pristiStanice)}, která je metodou třídy \texttt{Stanice} (také později).
 \end{itemize}
 
 \subsubsection{Třída \texttt{SpawnerSouprav}}
 Tato třída je vytvořená pouze z hlediska jednoduché implementace spawnování (vytváření) nových souprav. Pouze implementuje metodu \texttt{void zpracuj(Udalost udalost)}, která zpracovává pouze událost \texttt{spawnSouprav}, při níž pouze volá metodu \texttt{void spawniCastSouprav()} třídy \texttt{Model}.
 
 \subsection{Třída \texttt{Model}}
+Jak již bylo řeceno, toto je nejdůležitější třída v celém v programu. Jejím účelem je uchování odkazů na ostatní třídy a celkový "management" simulace. V celém programu se pro výpočet používá několik instancí této třídy. Pro další výpočty se tato třída neničí, ale pouze se resetuje pomocí níže zmíněných metod.
+
+Důležité proměnné:
+\begin{itemize}
+    \item \texttt{SeznamStanic seznamStanic}: Odkaz na třídu \texttt{SeznamStanic} (později), ve které jsou uloženy všechny stanice metra načtené ze souboru \texttt{stanice.txt}.
+    \item \texttt{SortedList<int, Pasazer> seznamPasazeru}: Seznam všech pasažérů v simulaci.
+    \item \texttt{SortedList<string, Souprava> seznamSouprav}: Seznam všech souprav v simulaci
+    \item \texttt{Kalendar kalendar}: Odkaz na třídu \texttt{Kalendar}.
+    \item \texttt{Nastaveni nastaveni}: Odkaz na třídu \texttt{Nastaveni}, která uchovává informace o daném nastavení modelu zadaném v GUI.
+    \item \texttt{MainGUI gui}: Odkaz na třídu \texttt{MainGUI}, která se stará o uživatelské rozhraní programu (o ní později).
+    \item \texttt{int cas}: Čas celé simulace.
+\end{itemize}
+
+Důležíté metody:
+\begin{itemize}
+    \item \texttt{void reset()}: Tato metoda připraví model na novou simulaci. Například vytvoří nový kalendář, seznam pasažérů, seznam souprav a vyresetuje všechny stanice.
+    \item \texttt{void nactiNastaveni(Nastaveni n)}: Tato metoda načte nastavení z GUI, vytvoří hlavního pasažéra a zavolá metody \texttt{void naplanujSpawnSouprav()} a \texttt{void spawniOstatniPasazery()}.
+    \item \texttt{Pasazer vygenerujPasazera(int casPrichodu)}: Tato metoda vygeneruje pasažéra metra, který jede z náhodné stanice do jiné náhodné stanice.
+    \item \texttt{void spawniOstatniPasazery()}: Tato metoda spočítá počet pasažérů pro dané časové rozmezí určené konstantou \texttt{int SPAWN\_LIDI\_MEZICAS = 30}, které je potřeba vygenerovat. Pro každého zavolá metodu \texttt{Pasazer vygenerujPasazera(int casPrichodu)}, kde \texttt{casPrichodu} je náhodný čas v dané časovém rozmezí. Stručně řečeno, každých 30 minut, naplánuje událost \texttt{prichodDoStanice} pro určitý počet nových pasažérů určených nastavením "Hustota lidí".
+    \item \texttt{void spawniCastSouprav()}: Jak již bylo řečeno, tato metoda je volána při zpracování událost \texttt{spawnSouprav}. Tato metoda pro každou linku vytvoří nový pár souprav (každá jede z různé konečné stanice).
+    \item \texttt{void spocitej()}: Tato metoda se stará o vybírání událostí z kalendáře a volá jejich zpracování, díky tomu aktualizuje proměnnou \texttt{cas}. Také každých \texttt{int SPAWN\_LIDI\_MEZICAS} volá metodu \texttt{void spawniOstatniPasazery()}. Všechno probíhá ve while loopu, dokud není kalendář prázný nebo dokud hlavní pasažér nedorazil do cíle. Po skončení while loopu zavolá metodu \texttt{void finished(int vysledek)} třídy \texttt{MainGUI}.
+\end{itemize}
+
+\subsection{Ostatní třídy}
+\subsubsection{Třída \texttt{MainGUI}}
+Tato třída obsahuje logiku celého uživatelského rozhraní a podle toho aktualizuje nastavení modelu. Dále se stará o simulaci více instancí třídy \texttt{Model} najednou. Jak již bylo řečeno, aby výsledky simulace byly přesnější, provádí se více simulací stejného výpočtu, z důvodů náhodného generování ostatních pasažérů.
+
+Počet celkových simulací je určen konstantou \texttt{int POCET\_MODELU\_CELKEM} a konstanta \texttt{int POCET\_MODELU\_PAR} určuje, kolik simulací beží paralelně. V základním nastavení je  \texttt{int POCET\_MODELU\_CELKEM = 16} a \texttt{int POCET\_MODELU\_PAR = 4}. Volání simulací probíhá tak, že v jednu chvíli simuluje \texttt{int POCET\_MODELU\_PAR} modelů najednou (každý v jiném vlákně). Počká se, dokud všechny z \texttt{int POCET\_MODELU\_PAR} nejsou dokonečné, a poté se volá další série. O toto se starají metody \texttt{void spustSeriiVypoctu()} a již výše zmíněná \texttt{void finished(int vysledek)}. Tyto konstanty lze samozřejmě libovolně měnit, akorát je potřeba dbát na jejich dopad, co se týče doby výpočtu. A zřejmě hodnota \texttt{int POCET\_MODELU\_PAR} musí dělit hodnotu \texttt{int POCET\_MODELU\_CELKEM}.
+
+\subsubsection{Třídy \texttt{Nastaveni} a \texttt{NastaveniLinky}}
+Třída \texttt{Nastaveni} v sobě obsahuje seznam tříd \texttt{NastaveniLinky}. Samotná třída \texttt{Nastaveni} obsahuje údaje o nastavení společném pro celý model, naopak třída \texttt{NastaveniLinky} obsahuje pro každou linku její speciální nastavení určené uživatelem.
+
+\subsubsection{Třida \texttt{Stanice}}
+Tato třída obsahuje informace o dané stanici a jejím okolí například její název, kilometr, na kterém se nachází.
+
+Důležité promměné:
+\begin{itemize}
+    \item{\texttt{Queue<Pasazer> nastupisteVice}}: Obsahuje seznam lidí na nástupišti. "Vice" určuje směr nástupiště ve smyslu toho, že ty stanice v tomto směru mají větší vzdálenost od konečné stanice s kilometrem 0.
+    \item{\texttt{Queue<Pasazer> nastupisteMene}}: To samé jako proměnná výše, akorát opačný směr.
+    \item{\texttt{List<Stanice> sousedi}}: Obsahuje seznam sousedících stanic.
+\end{itemize}
+
+Důležité metody:
+\begin{itemize}
+    \item{\texttt{void najdiSousedy(SortedList<string, Stanice> seznamStanic)}}: V seznamu stanic najde sousední stanice a uloží je do \texttt{List<Stanice> sousedi}.
+    \item{\texttt{void zaradNaNastupiste(Pasazer p, Stanice pristi)}}: Daného pasažéra zařadí na příslušné nástupiště podle toho, kam chce jet.
+\end{itemize}
+
+\subsubsection{Třida \texttt{SeznamStanic}}
+Tato třída obsahuje seznam stanic pro model, ale také i speciální seznamy jako seznam konečných stanic. Je to taková pomocná třída, která obsahuje informace o všech stanicích metra.
+
+\subsubsection{Třida \texttt{StaniceLoader}}
+Tato třída slouží jako parser souboru \texttt{stanice.txt} a vytváří z něj seznam stanic, který se poté ukládá do třídy \texttt{SeznamStanic}.
+\subsubsection{Třida \texttt{CustomCBItem}}
+Tato třída je vytvořena pro uložení více údajů v itemu třídy \texttt{ComboBox}, která se používá v uživatelském rozhraní pro výběr stanic.
 
 \end{document}

@@ -44,10 +44,20 @@ namespace MetroSim
 
         public void reset()
         {
+            cas = 0;
+            jeKonec = false;
+            vysledek = -1;
+
             kalendar = new Kalendar();
             seznamPasazeru = new SortedList<int, Pasazer>();
+            seznamSouprav = new SortedList<string, Souprava>();
+            pocetSouprav = new Dictionary<string, int>(); //dictionary ktery pocita pocet souprav na linkach
+            foreach (KeyValuePair<string, string> k in seznamStanic.pismenaLinek) //inicializuje Dictionary
+            {
+                pocetSouprav.Add(k.Key, 0);
+            }
 
-            foreach(KeyValuePair<string, Stanice> k in seznamStanic.stanice)
+            foreach (KeyValuePair<string, Stanice> k in seznamStanic.stanice)
             {
                 k.Value.reset();
             }
@@ -56,18 +66,6 @@ namespace MetroSim
         public void nactiNastaveni(Nastaveni n)
         {
             nastaveni = n;
-
-            cas = 0;
-            jeKonec = false;
-            vysledek = -1;
-
-            seznamSouprav = new SortedList<string, Souprava>();
-            pocetSouprav = new Dictionary<string, int>(); //dictionary ktery pocita pocet souprav na linkach
-
-            foreach(KeyValuePair<string, string> k in seznamStanic.pismenaLinek)
-            {
-                pocetSouprav.Add(k.Key, 0);
-            }
 
             if (nastaveni.pocatecniStanice != null && nastaveni.konecnaStanice != null)
             {

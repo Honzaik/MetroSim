@@ -4,6 +4,6 @@
     {
         public string id;
         protected Model model;
-        public abstract void zpracuj(Udalost u);
+        public abstract void zpracuj(Udalost udalost);
     }
 }

@@ -87,4 +87,63 @@ Jelikož je generování ostatních pasažérů náhodné (odkud kam jedou), tak
 
 \section{Implementace}
 
+Skoro každá diskrétní simulace se skládá ze 4 hlavních tříd (\texttt{Udalost}, \texttt{Kalendar}, \texttt{Model}, \texttt{Proces}). Postupně si je všechny probereme. 
+
+\subsection{Třída \texttt{Udalost}}
+Tato třída v sobě neobsahuje žádnou logiku programu. Obsahuje v sobě pouze informace o dané události v simulaci. Tyto infomace jsou uloženy ve 3 promměných:
+\begin{itemize}
+    \item \texttt{int kdy}: Kdy se daná událost stane.
+    \item \texttt{Proces kdo}: Který proces tuto událost zpracuje.
+    \item \texttt{TypUdalosti co}: Identifikátor typu události. \texttt{TypUdalosti} je \texttt{enum}.
+\end{itemize}
+
+V programu se vyskytují tyto typy událostí (obsah \texttt{TypUdalosti}):
+\begin{itemize}
+    \item \texttt{prichodDoStanice}: Tato událost je zpracována třídou \texttt{Pasazer} (o ní později). Označuje událost, když pasažér příjde do stanice metra.
+    \item \texttt{prijezdDoStanice}: Tato událost je zpracována třídou \texttt{Souprava} (o ní později). Označuje událost, když souprava přijede do stanice metra.
+    \item \texttt{vyjezdZeStanice}: Tato událost je zpracována třídou \texttt{Souprava} (o ní později). Označuje událost, když souprava odjiždí ze stanice metra.
+    \item \texttt{spawnSouprav}: Tato událost je zpracována třídou \texttt{Spawner} (o ní později). Označuje událost, kdy vyráží nové soupravy metra z konečných stanic.
+\end{itemize}
+
+\subsection{Třída \texttt{Kalendar}}
+Třída \texttt{Kalendar} je také vcelku malá jednoduchá třída. Stará se pouze o uchovávání výše zmíněných událostí a slouží jako interface pro práci s tímto seznamem.
+
+Seznam událostí je realizován třídou \texttt{List<Udalost>}. Pro manipulaci s kalendářem existují metody \texttt{void pridejUdalost(Udalost udalost)}, \texttt{Boolean jePrazdny()} a \texttt{Udalost vratNejaktulanejsi()}. Co tyto metody dělají snad plyne z názvu. Jediná otázka může nastat ohledně toho, co je to "nejaktuálnější" událost. Nejaktuálnější událost je ta, která má nejnižší hodnotu \texttt{cas}. Pokud je více takových, tak se vybere ta s nejnizším indexem v seznamu.
+
+\subsection{Třída \texttt{Proces}}
+Tato abstraktní třída je předkem všech tříd, které zpracovávají události. Obsahuje pouze 2 veřejné proměnné:
+\begin{itemize}
+    \item \texttt{string id}: identifikátor procesu
+    \item \texttt{Model model}: odkaz na třídu \texttt{Model} (o ní později).
+\end{itemize}
+
+Poslední součást této třídy je abstraktní metoda \texttt{void zpracuj(Udalost udalost)}.
+
+V programu se používají pouze 3 třídy, jejižch předkem je třída \texttt{Proces}.
+
+\subsubsection{Třída \texttt{Souprava}}
+Jak již plyne z názvu třídy, toto je třída pro soupravu metra. Obsahuje informace o rychlosti, kapacitě, lince, aktuální stanici apod. dané soupravy. Obsahuje metody:
+\begin{itemize}
+    \item \texttt{void jedDoDalsiStanice()}: Tato metoda spočítá dobu jízdy do následující stanice a vytvoří novou událost \texttt{prijezdDoStanice}.
+    \item \texttt{void vystupovani()}: Tato metoda naplánuje událost \texttt{prichodDoStanice} příslušným pasažérům.
+    \item \texttt{void nastupovani()}: Tato metoda přidá do seznamu příslušné pasažéry, pokud je volné místo.
+    \item \texttt{void zpracuj(Udalost udalost)}: Tato metoda zpracovává 2 typy událostí:
+    \begin{itemize}
+        \item \texttt{prijedzDoStanice}: Zavolá metodu \texttt{void vystupovani()} a naplánuje událost \texttt{vyjezdZeStanice}.
+        \item \texttt{vyjezdZeStanice}: Zavolá metody \texttt{void nastupovani()} a \texttt{void jedDoDalsiStanice()}.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Třída \texttt{Pasazer}}
+Asi druhá nejhlavnější třída (po třídě \texttt{Model}) v celém programu co se týče samotného provedení simulace. Obsahuje informace a metody o příslušném pasažérovi (například aktuální stanici). Důležité metody jsou 2:
+\begin{itemize}
+    \item \texttt{void setPristiStanice()}: Pomocí výše zmíněného algoritmu nastaví pasažérovi jeho příští stanici.
+    \item \texttt{void zpracuj(Udalost udalost)}: Tato metoda zpracovává pouze jednu událost \texttt{prichodDoStanice}. Zjistí, jestli aktuální stanice je konečná. Pokud ano, tak smaže pasažéra, pokud ne, tak zavolá metodu \texttt{void setPristiStanice()}. Poté ještě zjistí, zda se pasažér nachází na přestupná stanici. Pokud ano, tak naplánuje novou událost \texttt{prichodDoStanice} do druhé přestupní stanice za určitou dobu, která je určena parametrem \texttt{DOBA\_PRESTUPU} ve třídě \texttt{StaniceLoader} (o ní později). Pokud ne, tak zavolá metodu \texttt{void zaradNaNastupiste(Pasazer p, Stanice pristiStanice)}, která je metodou třídy \texttt{Stanice} (také později).
+\end{itemize}
+
+\subsubsection{Třída \texttt{SpawnerSouprav}}
+Tato třída je vytvořená pouze z hlediska jednoduché implementace spawnování (vytváření) nových souprav. Pouze implementuje metodu \texttt{void zpracuj(Udalost udalost)}, která zpracovává pouze událost \texttt{spawnSouprav}, při níž pouze volá metodu \texttt{void spawniCastSouprav()} třídy \texttt{Model}.
+
+\subsection{Třída \texttt{Model}}
+
 \end{document}

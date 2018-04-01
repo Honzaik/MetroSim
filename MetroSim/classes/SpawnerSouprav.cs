@@ -11,9 +11,9 @@ namespace MetroSim
             this.id = id;
         }
 
-        public override void zpracuj(Udalost u)
+        public override void zpracuj(Udalost udalost)
         {
-            switch (u.co)
+            switch (udalost.co)
             {
                 case TypUdalosti.spawnSouprav:
                     //Console.WriteLine("VOLAM SPAWN " + u.kdy);

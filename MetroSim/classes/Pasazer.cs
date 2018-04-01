@@ -56,13 +56,13 @@ namespace MetroSim
             return aktualniStanice;
         }
 
-        public override void zpracuj(Udalost u)
+        public override void zpracuj(Udalost udalost)
         {
-            switch (u.co)
+            switch (udalost.co)
             {
                 case TypUdalosti.prichodDoStanice:
                     if (this.id.Equals("0")) {
-                        Console.WriteLine("pasazer " + id + " prisel do stanice " + aktualniStanice.id + " v " + u.kdy);
+                        Console.WriteLine("pasazer " + id + " prisel do stanice " + aktualniStanice.id + " v " + udalost.kdy);
                     }
                     if(aktualniStanice == sKonec)
                     {
@@ -77,7 +77,7 @@ namespace MetroSim
                     setPristiStanice();
                     if(aktualniStanice.jePrestupni && aktualniStanice.jmeno.Equals(pristiStanice.jmeno)) //prestoupeni
                     {
-                        model.pridejDoKalendare(new Udalost(u.kdy + aktualniStanice.dobaPrestupu, this, TypUdalosti.prichodDoStanice));
+                        model.pridejDoKalendare(new Udalost(udalost.kdy + aktualniStanice.dobaPrestupu, this, TypUdalosti.prichodDoStanice));
                     }
                     else
                     {

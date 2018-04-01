@@ -7,6 +7,9 @@ namespace MetroSim
 {
     class StaniceLoader
     {
+
+        private static int DOBA_PRESTUPU = 2;
+
         public static SortedList<string, Stanice> nactiStanice(string path)
         {
             SortedList<string, Stanice> seznam = new SortedList<string, Stanice>();
@@ -39,7 +42,7 @@ namespace MetroSim
                         }                        
                     }
                     string id = pismeno + jmeno.Substring(0, 3);
-                    Stanice stanice = new Stanice(id, pismeno, jmeno, kilometr, jeKonecna, jePrestupni, prestupniPismeno, 2);
+                    Stanice stanice = new Stanice(id, pismeno, jmeno, kilometr, jeKonecna, jePrestupni, prestupniPismeno, DOBA_PRESTUPU);
                     seznam.Add(id, stanice);
                 }
             }

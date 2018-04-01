@@ -58,14 +58,14 @@ namespace MetroSim
             aktualniStanice = aktualniStanice.vratSouseda(pristiStaniceIndex);
         }
 
-        public override void zpracuj(Udalost u)
+        public override void zpracuj(Udalost udalost)
         {
-            switch (u.co)
+            switch (udalost.co)
             {
                 case TypUdalosti.prijezdDoStanice:
                     //if(pismeno == "A") Console.WriteLine("souprava " + id + " prijela do stanice " + aktualniStanice.jmeno + " (" + aktualniStanice.pismeno + ") cas " + u.kdy);
                     vystupovani();    
-                    model.pridejDoKalendare(new Udalost(u.kdy + dobaCekaniVeStanici, this, TypUdalosti.vyjezdZeStanice));
+                    model.pridejDoKalendare(new Udalost(udalost.kdy + dobaCekaniVeStanici, this, TypUdalosti.vyjezdZeStanice));
 
                     break;
                 case TypUdalosti.vyjezdZeStanice:

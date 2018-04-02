@@ -1,0 +1,15 @@
+C:\Users\honzaik\MetroSim\MetroSim\bin\Debug\MetroSim.exe.config
+C:\Users\honzaik\MetroSim\MetroSim\bin\Debug\MetroSim.exe
+C:\Users\honzaik\MetroSim\MetroSim\bin\Debug\MetroSim.pdb
+C:\Users\honzaik\MetroSim\MetroSim\obj\Debug\MetroSim.csprojResolveAssemblyReference.cache
+C:\Users\honzaik\MetroSim\MetroSim\obj\Debug\MetroSim.MainGUI.resources
+C:\Users\honzaik\MetroSim\MetroSim\obj\Debug\MetroSim.Properties.Resources.resources
+C:\Users\honzaik\MetroSim\MetroSim\obj\Debug\MetroSim.csproj.GenerateResource.cache
+C:\Users\honzaik\MetroSim\MetroSim\obj\Debug\MetroSim.csproj.CoreCompileInputs.cache
+C:\Users\honzaik\MetroSim\MetroSim\obj\Debug\MetroSim.exe
+C:\Users\honzaik\MetroSim\MetroSim\obj\Debug\MetroSim.pdb
+C:\Users\honzaik\MetroSim\MetroSim\bin\Debug\stanice.txt
+C:\Users\honzaik\MetroSim\MetroSim\bin\Debug\MetroSim.exe.manifest
+C:\Users\honzaik\MetroSim\MetroSim\bin\Debug\MetroSim.application
+C:\Users\honzaik\MetroSim\MetroSim\obj\Debug\MetroSim.exe.manifest
+C:\Users\honzaik\MetroSim\MetroSim\obj\Debug\MetroSim.application

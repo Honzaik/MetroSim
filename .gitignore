@@ -7,3 +7,8 @@ MetroSim/MetroSim_TemporaryKey.pfx
 *.log
 *.aux
 *.gz
+*.aux
+*.bbl
+*.bcf
+*.blg
+documentation.run.xml

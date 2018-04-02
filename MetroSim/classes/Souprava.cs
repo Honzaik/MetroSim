@@ -6,7 +6,7 @@ namespace MetroSim
     class Souprava : Proces
     {
         public string pismeno;
-        public bool smerVice;
+        public bool smerVice; //zda souprava jede směrem "více" <=> jede ze stanice s nižším kilometrem do výšší
         private float rychlost;
         private int kapacita;
         private Stanice aktualniStanice;
@@ -26,11 +26,12 @@ namespace MetroSim
             seznamPasazeru = new List<Pasazer>();
         }
 
+        //najde příští stanici a naplánuje příjezd
         public void jedDoDalsiStanice()
         {
             float vzdalenostPristiStanice = 0f;
             int pristiStaniceIndex = 0;
-            if(aktualniStanice.pocetSousedu() > 1 && !smerVice)
+            if(aktualniStanice.pocetSousedu() > 1 && !smerVice) //aktuální stanice není konečná a jedu směrem níže -> soused níže je na indexu 1, soused výše je na 0
             {
                 pristiStaniceIndex = 1;
             }
@@ -52,7 +53,8 @@ namespace MetroSim
                 }
                 if(oldSmer ^ smerVice)
                 {
-                    //Console.WriteLine("OTACIM SE " + id);
+                    //pokud se mění směr tak se souprava otáčí v konečné stanici
+                    //Console.WriteLine("OTACIM SE " + id); 
                 }
             }
             aktualniStanice = aktualniStanice.vratSouseda(pristiStaniceIndex);

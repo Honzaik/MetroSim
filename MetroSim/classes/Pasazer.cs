@@ -5,11 +5,11 @@ namespace MetroSim
 {
     class Pasazer : Proces
     {
-        public Stanice sZacatek;
-        public Stanice sKonec;
-        private Stanice aktualniStanice;
-        private Stanice pristiStanice;
-        public float start;
+        public Stanice sZacatek; //odkud pasažér jede
+        public Stanice sKonec; //kam pasažér jede
+        private Stanice aktualniStanice; //aktualni stanice, kde se pasažér nachází
+        private Stanice pristiStanice; //kam chce pasažér v danou chvíli jet z aktualní stanice
+        public float start; //kdy přišel do metra
 
         public Pasazer(Model model, string id, Stanice sZacatek, Stanice sKonec, float start)
         {
@@ -61,10 +61,10 @@ namespace MetroSim
             switch (udalost.co)
             {
                 case TypUdalosti.prichodDoStanice:
-                    if (this.id.Equals("0")) {
+                    if (this.id.Equals("0")) { //log hlavního pasažéra (má id 0)
                         Console.WriteLine("pasazer " + id + " prisel do stanice " + aktualniStanice.id + " v " + udalost.kdy);
                     }
-                    if(aktualniStanice == sKonec)
+                    if(aktualniStanice == sKonec) //daný pasažér dorazil do své konečné stanice
                     {
                         //Console.WriteLine("PASAZER " + id + " DORAZIL DO KONCE " + aktualniStanice.id + " v " + u.kdy);
                         if (this.id.Equals("0")) //hlavni pasazer
@@ -75,7 +75,7 @@ namespace MetroSim
                         break;
                     }
                     setPristiStanice();
-                    if(aktualniStanice.jePrestupni && aktualniStanice.jmeno.Equals(pristiStanice.jmeno)) //prestoupeni
+                    if(aktualniStanice.jePrestupni && aktualniStanice.jmeno.Equals(pristiStanice.jmeno)) //prestoupeni v přestupní stanici
                     {
                         model.pridejDoKalendare(new Udalost(udalost.kdy + aktualniStanice.dobaPrestupu, this, TypUdalosti.prichodDoStanice));
                     }

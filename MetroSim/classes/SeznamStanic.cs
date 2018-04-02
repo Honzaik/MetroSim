@@ -5,9 +5,9 @@ namespace MetroSim
 {
     class SeznamStanic
     {
-        public SortedList<string, Stanice> stanice;
-        public SortedList<string, Stanice[]> konecneStanice;
-        public SortedList<string, string> pismenaLinek;
+        public SortedList<string, Stanice> stanice; //seznam všech stanic v metru
+        public SortedList<string, Stanice[]> konecneStanice; //seznam všech konečných stanic v metru (používá se pro jednodušší spawnování souprav)
+        public SortedList<string, string> pismenaLinek; //seznam linek
 
         public SeznamStanic(SortedList<string, Stanice> seznam)
         {
@@ -17,6 +17,7 @@ namespace MetroSim
             najdiSousedy();
         }
 
+        //najde všechny různé linky metra
         private void setPismenaLinek()
         {
             pismenaLinek = new SortedList<string, string>();
@@ -30,6 +31,7 @@ namespace MetroSim
             }
         }
 
+        //najde všechny konečné stanice
         private void setKonecneStanice()
         {
             konecneStanice = new SortedList<string, Stanice[]>();

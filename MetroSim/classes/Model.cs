@@ -18,14 +18,14 @@ namespace MetroSim
         private Nastaveni nastaveni;
         private Random rand;
         private SpawnerSouprav spawnerSouprav;
-        private static int SPAWN_SOUPRAV_MEZICAS = 5;
-        private static int SPAWN_LIDI_MEZICAS = 30;
+        private static int SPAWN_SOUPRAV_MEZICAS = 5; //jak dlouho po sobě budou vyjíždět soupravy
+        private static int SPAWN_LIDI_MEZICAS = 30; //po jakých intervalech se bude plánovat spawn lidí (rychlost je lepší)
         private string id;
         private int pocetVygenerovanychPasazeru = 0;
 
         public Model(MainGUI gui, string id)
         {
-            this.rand = new Random(this.GetHashCode());
+            this.rand = new Random(this.GetHashCode()); //potřebuju random seed pro každý thread
             this.gui = gui;
             this.id = id;
             spawnerSouprav = new SpawnerSouprav(this, "spawner");
@@ -181,7 +181,7 @@ namespace MetroSim
         public void spocitej()
         {
             Console.WriteLine("ZAHAJUJU VYPOCET " + this.id);
-            bool spawnNew = false;
+            bool spawnNew = false; //značí jestli už jsme zpracovali nějakou událost v tento čas (negace)
             while (!kalendar.jePrazdny() && !jeKonec)
             {
                 Udalost zpracovavanaUdalost = kalendar.vratNejaktualnejsi();
@@ -201,7 +201,7 @@ namespace MetroSim
 
                 (zpracovavanaUdalost.kdo).zpracuj(zpracovavanaUdalost);
                 
-                if (cas > 5000)
+                if (cas > 5000) //timeout v případě špatného randomu
                 {
                     Console.WriteLine("STOPPED BECAUSE TIME LIMIT EXCEEDED " + cas);
                     cas = -1; //chyba

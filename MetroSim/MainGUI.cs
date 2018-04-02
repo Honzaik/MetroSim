@@ -7,17 +7,12 @@ namespace MetroSim
 {
     public partial class MainGUI : Form
     {
-
-        //private Model model;
         private Nastaveni[] nastaveni;
         private Model[] modely;
-        private static int POCET_MODELU_PAR = 4;
-        private static int POCET_MODELU_CELKEM = 16;
+        private static int POCET_MODELU_PAR = 4; //počet paralelních simulací ve vláknech
+        private static int POCET_MODELU_CELKEM = 16; //celkový počet simulací
         private float prumerVysledku;
         private int dokoncenychVypoctu;
-        private string pocatecniStaniceId;
-        private string konecnaStaniceId;
-
 
         public MainGUI()
         {
@@ -65,9 +60,6 @@ namespace MetroSim
             prumerVysledku = 0;
             dokoncenychVypoctu = 0;
 
-            pocatecniStaniceId = (string)((CustomCBItem)cZacatek.SelectedItem).Value;
-            konecnaStaniceId = (string)((CustomCBItem)cKonec.SelectedItem).Value;
-
             lVysledek.Visible = false;
             pLoading.Visible = true;
             bStart.Enabled = false;
@@ -75,8 +67,8 @@ namespace MetroSim
 
             for(int i = 0; i < POCET_MODELU_PAR; i++)
             {
-                nastaveni[i].pocatecniStanice = modely[i].getSeznamStanic().stanice[pocatecniStaniceId];
-                nastaveni[i].konecnaStanice = modely[i].getSeznamStanic().stanice[konecnaStaniceId];
+                nastaveni[i].pocatecniStanice = modely[i].getSeznamStanic().stanice[(string)((CustomCBItem)cZacatek.SelectedItem).Value];
+                nastaveni[i].konecnaStanice = modely[i].getSeznamStanic().stanice[(string)((CustomCBItem)cKonec.SelectedItem).Value];
                 nastaveni[i].frekvenceLidi = (int)nFrekvenceLidi.Value;
                 nastaveni[i].casPrichodu = (int)nCasPrichodu.Value;
             }

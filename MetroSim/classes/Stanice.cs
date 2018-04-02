@@ -15,9 +15,9 @@ namespace MetroSim
         public string prestupniPismeno;
         public int dobaPrestupu;
 
-        private Queue<Pasazer> nastupisteVice;
-        private Queue<Pasazer> nastupisteMene;
-        private List<Stanice> sousedi;
+        private Queue<Pasazer> nastupisteVice; //fronta lidi, kteří chtějí je směrem více
+        private Queue<Pasazer> nastupisteMene; //-|- mene
+        private List<Stanice> sousedi; // index = 0 - pravy soused (vetsi km); index = 1 - levy soused, index = 2 - prestupni
 
         public Stanice(string id, string pismeno, string jmeno, float kilometr, bool jeKonecna, bool jePrestupni, string prestupniPismeno, int dobaPrestupu)
         {
@@ -90,6 +90,7 @@ namespace MetroSim
             {
                 foreach (KeyValuePair<string, Stanice> k in seznamStanic)
                 {
+                    //je na stejné lince && není to ona sama && ještě jsem jí nenašel && (ještě jsem žádného kandidáta nenašel || našel jsem blížší než je aktualne novySoused) 
                     if ((k.Value.pismeno.Equals(pismeno)) && (!k.Value.id.Equals(id)) && (!jeSoused(k.Value)) &&
                         (novySoused == null || (Math.Abs(kilometr - k.Value.kilometr) < Math.Abs(kilometr - novySoused.kilometr))))
                     {
@@ -100,6 +101,7 @@ namespace MetroSim
             }
             else
             {
+                //"normální stanice" má 2 sousedy - 2x foreach, jelikož jeden dělal problémy a toto není až taková žátěž
                 novySoused = null;
                 //hledam souseda na index 0, to je ten s nejmensim kladnym rozdilem
                 foreach (KeyValuePair<string, Stanice> k in seznamStanic)
@@ -127,7 +129,7 @@ namespace MetroSim
                 pridejSouseda(novySoused);
             }
 
-            if (jePrestupni)
+            if (jePrestupni) //stanice je přestupní tak ještě najdeme její adékvátní stanici na druhé lince (předpokládá se, že z jedné stanice jde pouze přestoupit na jednu linku)
             {
                 novySoused = null;
                 foreach (KeyValuePair<string, Stanice> k in seznamStanic)

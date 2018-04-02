@@ -18,31 +18,31 @@
 
 \section{Zadání}
 
-Program má za úkol provést diskrétní simulaci metra. Cílem této simulace bude zjištění doby cesty ze stanice A do stanice B za různých podmínek jako kapacita souprav, počet lidí, počet souprav apod. 
+Program má za úkol provést diskrétní simulaci metra. Cílem této simulace je zjištění doby cesty ze stanice A do stanice B za různých podmínek, jako různá kapacita souprav, různý počet lidí, různý počet souprav apod. 
 
 \section{Uživatelský manuál}
 
-Spolu s programem je distibuován soubor \url{stanice.txt}, ve kterém je seznam stanic metra. Základně je v něm seznam stanic pražského metra v požadovaném formátu.
+Spolu s programem je distribuován soubor \url{stanice.txt}, ve kterém je seznam stanic metra. V základu se v něm nachází seznam stanic pražského metra v požadovaném formátu.
 
 Uživatel si ale může tento soubor upravit podle libosti, akorát musí dodržet následující syntaxi:
 
 \begin{itemize}
     \item Prázdné řádky jsou ignorovány.
-    \item Řádek, který začíná "\#" je komentář. Tento řádek je také ignorován
+    \item Řádek, který začíná "\#", je komentář. Tento řádek je také ignorován.
     \item Na každém řádku se může nacházet pouze jedna stanice metra.
-    \item Řádek se stanicí musí mít následujicí formát:
+    \item Řádek se stanicí musí mít následující formát:
     \[ % hack pro posunuti doleva
     \displayindent0pt
     \displaywidth\textwidth
-    \mathtt{[pismeno], [nazev], [km], [je\;konecna], [je\;prestupni], [prestupni\;pismeno]}\text{, kde}
+    \mathtt{[pismeno], [nazev], [km], [je\;konecna], [je\;prestupni], [prestupni\;pismeno]}\text{, kde:}
     \]
-    \texttt{[pismeno]} = Písmeno linky, na které se daná stanice nachází\\
-    \texttt{[nazev]} = Název stanice\\
-    \texttt{[km]} = Na kolikátém kilometru od počáteční stanice se stanice nachází. Počáteční stanice má 0. kilometr. Číslo může být i s desetinnou tečkou.\\
-    \texttt{[je konecna]} = Zda je stanice konečná. 0 = ne, 1 = ano. Tento údaj není povinný (defaultně je 0)\\
-    \texttt{[je prestupni]} = Zda je stanice přestupní. 0 = ne, 1 = ano. Tento údaj není povinný (defaultně je 0)\\
-    \texttt{[prestupni pismeno]} = Písmeno linky, na kterou lze z dané stanice přestoupit. Tento údaj není povinný, pokud je předchozí údaj 0.\\
-    Řádky mohou tedy vypadat např. takto:
+    \texttt{[pismeno]}: Písmeno linky, na které se daná stanice nachází.\\
+    \texttt{[nazev]}: Název stanice.\\
+    \texttt{[km]}: Na kolikátém kilometru od počáteční stanice se stanice nachází. Počáteční stanice má 0. kilometr. Číslo může být i s desetinnou tečkou.\\
+    \texttt{[je konecna]}: Zda je stanice konečná. 0 = ne, 1 = ano. Tento údaj není povinný (defaultně je 0)\\
+    \texttt{[je prestupni]}: Zda je stanice přestupní. 0 = ne, 1 = ano. Tento údaj není povinný (defaultně je 0)\\
+    \texttt{[prestupni pismeno]}: Písmeno linky, na kterou lze z dané stanice přestoupit. Tento údaj není povinný, pokud je předchozí údaj 0.\\
+    Řádky mohou tedy vypadat například takto:
     \begin{verbatim}
     C, Háje, 0, 1
     B, Českomoravská, 6.4
@@ -50,7 +50,7 @@ Uživatel si ale může tento soubor upravit podle libosti, akorát musí dodrž
     \end{verbatim}
 \end{itemize}
 
-Poté již stačí program spustit a vybrat počáteční a konečnou stanici. Uživatel může dále měnit více specifická nastavení:
+Poté již stačí program spustit a vybrat počáteční a konečnou stanici. Uživatel dále může měnit více specifická nastavení:
 \begin{itemize}
     \item "Čas přichodu": Kdy dorazíme do počáteční stanice od prvního výjezdu souprav. První soupravy totiž vyjedou v čase 0 z konečných stanic. Zbylé soupravy vyjíždějí po 5 minutových intervalech.
     \item "Hustota lidí": Kolik lidí příjde každou minutu do metra (každý do náhodné stanice).
@@ -61,7 +61,7 @@ Poté již stačí program spustit a vybrat počáteční a konečnou stanici. U
     \item "Doba čekání ve stanici": Jak dlouho souprava čeká ve stanici v minutách.
 \end{itemize}
 
-Hodnoty "Hustota lidí" a "Kapacita soupravy" by měly být upraveny oproti reálným hodnotám. Například v pražském metru ve špičce příjde do metra cca 1200 lidí za minutu. Každá souprava má kapacitu zhruba 1400. Základní nastavení je odvozeno od těchto údajů. Nechceme simulovat všech 1200 různých lidí za minutu ale stačí nám zhruba $\frac{1}{20}$, tedy "Hustota lidí" = 50 a "Kapacita soupravy" = 70.
+Hodnoty "Hustota lidí" a "Kapacita soupravy" by měly být upraveny oproti reálným hodnotám. Například v pražském metru ve špičce příjde do metra cca 1200 lidí za minutu. Každá souprava má kapacitu zhruba 1400. Základní nastavení je odvozeno od těchto údajů. Nechceme simulovat všech 1200 různých lidí za minutu ale stačí nám zhruba $\frac{1}{20}$, tedy "Hustota lidí" = 50 (lehce pod špičkou) a "Kapacita soupravy" = 70.
 
 Po nastavení stačí stisknout tlačítko "Simuluj" a počkat na výsledek, který se objeví pod tlačíkem. Uživatel po skončení jedné simulace může změnit nastavení a simulaci opakovat opětovným stiskem tlačítka.
 \begin{figure}[h]
@@ -72,7 +72,7 @@ Po nastavení stačí stisknout tlačítko "Simuluj" a počkat na výsledek, kte
 
 \section{Jak program funguje (algoritmus)}
 
-Program je vlastně obyčejná diskrétní simulace, tudiž algoritmus velice jednoduchý na vysvětlení. Zhruba funguje takto:
+Program je vlastně obyčejná diskrétní simulace, tudíž je algoritmus velice jednoduchý na vysvětlení. Zhruba funguje takto:
 
 \begin{itemize}
     \item Simulujeme jízdu souprav mezi stanicemi. Soupravy vyrážejí z konečných stanic po párech na každé lince v čase 0. Pokud je na lince více souprav (což je obvyklý případ), tak další pár vyráží po 5 minutách.
@@ -80,7 +80,7 @@ Program je vlastně obyčejná diskrétní simulace, tudiž algoritmus velice je
     \item V čase "Čas příchodu" vytvoříme hlavního pasažéra, který bude absolvovat trasu dle nastavení.
     \item Každý pasažér se snaží co nejkratší cestou dostat do své cílové stanice. Cestu má určenou tímto algoritmem:
         \begin{enumerate}
-            \item Pokud je cílová stanice na stejné lince jako aktuální stanice, kde se pasažér nachází, tak pasažér nastoupí do soupravy, která jede správným směrem, a nevystoupí dokud nedorazí do cíle.
+            \item Pokud je cílová stanice na stejné lince jako aktuální stanice, kde se pasažér nachází, tak pasažér nastoupí do soupravy, která jede správným směrem, a nevystoupí, dokud nedorazí do cíle.
             \item Pokud neplatí 1., tak pasažér dojede do nejbližší přestupní stanice na danou linku, na které se nachází cílová stanice. Poté pokračuje krokem 1.
         \end{enumerate} 
     \item Simulace končí, když hlavní pasažér dorazí do cílové stanice.
@@ -109,9 +109,9 @@ V programu se vyskytují tyto typy událostí (obsah \texttt{TypUdalosti}):
 \end{itemize}
 
 \subsection{Třída \texttt{Kalendar}}
-Třída \texttt{Kalendar} je také vcelku malá jednoduchá třída. Stará se pouze o uchovávání výše zmíněných událostí a slouží jako interface pro práci s tímto seznamem.
+Třída \texttt{Kalendar} je vcelku malá jednoduchá třída. Stará se pouze o uchovávání výše zmíněných událostí a slouží jako interface pro práci s tímto seznamem.
 
-Seznam událostí je realizován třídou \texttt{List<Udalost>}. Pro manipulaci s kalendářem existují metody \texttt{void pridejUdalost(Udalost udalost)}, \texttt{Boolean jePrazdny()} a \texttt{Udalost vratNejaktulanejsi()}. Co tyto metody dělají snad plyne z názvu. Jediná otázka může nastat ohledně toho, co je to "nejaktuálnější" událost. Nejaktuálnější událost je ta, která má nejnižší hodnotu \texttt{cas}. Pokud je více takových, tak se vybere ta s nejnizším indexem v seznamu.
+Seznam událostí je realizován třídou \texttt{List<Udalost>}. Pro manipulaci s kalendářem existují metody \texttt{void pridejUdalost(Udalost udalost)}, \texttt{Boolean jePrazdny()} a \texttt{Udalost vratNejaktulanejsi()}. Co tyto metody dělají snad plyne z názvu. Jediná otázka může nastat ohledně toho, co je to "nejaktuálnější" událost. Nejaktuálnější událost je ta, která má nejnižší hodnotu \texttt{cas}. Pokud je více takových, tak se vybere ta s nejnižším indexem v seznamu.
 
 \subsection{Třída \texttt{Proces}}
 Tato abstraktní třída je předkem všech tříd, které zpracovávají události. Obsahuje pouze 2 veřejné proměnné:
@@ -120,9 +120,9 @@ Tato abstraktní třída je předkem všech tříd, které zpracovávají událo
     \item \texttt{Model model}: odkaz na třídu \texttt{Model} (o ní později).
 \end{itemize}
 
-Poslední součást této třídy je abstraktní metoda \texttt{void zpracuj(Udalost udalost)}.
+Poslední součástí této třídy je abstraktní metoda \texttt{void zpracuj(Udalost udalost)}.
 
-V programu se používají pouze 3 třídy, jejižch předkem je třída \texttt{Proces}.
+V programu se používají pouze 3 třídy, jejichž předkem je třída \texttt{Proces}.
 
 \subsubsection{Třída \texttt{Souprava}}
 Jak již plyne z názvu třídy, toto je třída pro soupravu metra. Obsahuje informace o rychlosti, kapacitě, lince, aktuální stanici apod. dané soupravy. Obsahuje metody:
@@ -138,14 +138,14 @@ Jak již plyne z názvu třídy, toto je třída pro soupravu metra. Obsahuje in
 \end{itemize}
 
 \subsubsection{Třída \texttt{Pasazer}}
-Asi druhá nejhlavnější třída (po třídě \texttt{Model}) v celém programu co se týče samotného provedení simulace. Obsahuje informace a metody o příslušném pasažérovi (například aktuální stanici). Důležité metody jsou 2:
+Asi druhá nejhlavnější třída (po třídě \texttt{Model}) v celém programu. Obsahuje informace a metody o příslušném pasažérovi (například aktuální stanici). Důležité metody jsou 2:
 \begin{itemize}
     \item \texttt{void setPristiStanice()}: Pomocí výše zmíněného algoritmu nastaví pasažérovi jeho příští stanici.
-    \item \texttt{void zpracuj(Udalost udalost)}: Tato metoda zpracovává pouze jednu událost \texttt{prichodDoStanice}. Zjistí, jestli aktuální stanice je konečná. Pokud ano, tak smaže pasažéra, pokud ne, tak zavolá metodu \texttt{void setPristiStanice()}. Poté ještě zjistí, zda se pasažér nachází na přestupná stanici. Pokud ano, tak naplánuje novou událost \texttt{prichodDoStanice} do druhé přestupní stanice za určitou dobu, která je určena parametrem \texttt{int DOBA\_PRESTUPU} ve třídě \texttt{StaniceLoader} (o ní později). Pokud ne, tak zavolá metodu \texttt{void zaradNaNastupiste(Pasazer p, Stanice pristiStanice)}, která je metodou třídy \texttt{Stanice} (také později).
+    \item \texttt{void zpracuj(Udalost udalost)}: Tato metoda zpracovává pouze jednu událost \texttt{prichodDoStanice}. Zjistí, jestli aktuální stanice je konečná. Pokud ano, tak smaže pasažéra, pokud ne, tak zavolá metodu \texttt{void setPristiStanice()}. Poté ještě zjistí, zda se pasažér nachází na přestupní stanici. Pokud ano, tak naplánuje novou událost \texttt{prichodDoStanice} do druhé přestupní stanice za určitou dobu, která je určena parametrem \texttt{int DOBA\_PRESTUPU} ve třídě \texttt{StaniceLoader} (o ní později). Pokud ne, tak zavolá metodu \texttt{void zaradNaNastupiste(Pasazer p, Stanice pristiStanice)}, která je metodou třídy \texttt{Stanice} (také později).
 \end{itemize}
 
 \subsubsection{Třída \texttt{SpawnerSouprav}}
-Tato třída je vytvořená pouze z hlediska jednoduché implementace spawnování (vytváření) nových souprav. Pouze implementuje metodu \texttt{void zpracuj(Udalost udalost)}, která zpracovává pouze událost \texttt{spawnSouprav}, při níž pouze volá metodu \texttt{void spawniCastSouprav()} třídy \texttt{Model}.
+Tato třída je vytvořená pouze z důvodů jednoduché implementace spawnování (vytváření) nových souprav. Jen implementuje metodu \texttt{void zpracuj(Udalost udalost)}, která zpracovává událost \texttt{spawnSouprav}, při níž volá metodu \texttt{void spawniCastSouprav()} třídy \texttt{Model}.
 
 \subsection{Třída \texttt{Model}}
 Jak již bylo řeceno, toto je nejdůležitější třída v celém v programu. Jejím účelem je uchování odkazů na ostatní třídy a celkový "management" simulace. V celém programu se pro výpočet používá několik instancí této třídy. Pro další výpočty se tato třída neničí, ale pouze se resetuje pomocí níže zmíněných metod.
@@ -158,7 +158,7 @@ Důležité proměnné:
     \item \texttt{Kalendar kalendar}: Odkaz na třídu \texttt{Kalendar}.
     \item \texttt{Nastaveni nastaveni}: Odkaz na třídu \texttt{Nastaveni}, která uchovává informace o daném nastavení modelu zadaném v GUI.
     \item \texttt{MainGUI gui}: Odkaz na třídu \texttt{MainGUI}, která se stará o uživatelské rozhraní programu (o ní později).
-    \item \texttt{float cas}: Čas celé simulace.
+    \item \texttt{float cas}: Aktuální čas celé simulace.
 \end{itemize}
 
 Důležíté metody:
@@ -166,22 +166,22 @@ Důležíté metody:
     \item \texttt{void reset()}: Tato metoda připraví model na novou simulaci. Například vytvoří nový kalendář, seznam pasažérů, seznam souprav a vyresetuje všechny stanice.
     \item \texttt{void nactiNastaveni(Nastaveni n)}: Tato metoda načte nastavení z GUI, vytvoří hlavního pasažéra a zavolá metody \texttt{void naplanujSpawnSouprav()} a \texttt{void spawniOstatniPasazery()}.
     \item \texttt{Pasazer vygenerujPasazera(int casPrichodu)}: Tato metoda vygeneruje pasažéra metra, který jede z náhodné stanice do jiné náhodné stanice.
-    \item \texttt{void spawniOstatniPasazery()}: Tato metoda spočítá počet pasažérů pro dané časové rozmezí určené konstantou \texttt{int SPAWN\_LIDI\_MEZICAS = 30}, které je potřeba vygenerovat. Pro každého zavolá metodu \texttt{Pasazer vygenerujPasazera(int casPrichodu)}, kde \texttt{casPrichodu} je náhodný čas v dané časovém rozmezí. Stručně řečeno, každých 30 minut, naplánuje událost \texttt{prichodDoStanice} pro určitý počet nových pasažérů určených nastavením "Hustota lidí".
-    \item \texttt{void spawniCastSouprav()}: Jak již bylo řečeno, tato metoda je volána při zpracování událost \texttt{spawnSouprav}. Tato metoda pro každou linku vytvoří nový pár souprav (každá jede z různé konečné stanice).
-    \item \texttt{void spocitej()}: Tato metoda se stará o vybírání událostí z kalendáře a volá jejich zpracování, díky tomu aktualizuje proměnnou \texttt{cas}. Také každých \texttt{int SPAWN\_LIDI\_MEZICAS} volá metodu \texttt{void spawniOstatniPasazery()}. Všechno probíhá ve while loopu, dokud není kalendář prázný nebo dokud hlavní pasažér nedorazil do cíle. Po skončení while loopu zavolá metodu \texttt{void finished(int vysledek)} třídy \texttt{MainGUI}.
+    \item \texttt{void spawniOstatniPasazery()}: Tato metoda spočítá počet pasažérů pro dané časové rozmezí určené konstantou \texttt{int SPAWN\_LIDI\_MEZICAS = 30}, které je potřeba vygenerovat. Pro každého zavolá metodu \texttt{Pasazer vygenerujPasazera(float casPrichodu)}, kde \texttt{casPrichodu} je náhodný čas v daném časovém rozmezí. Stručně řečeno, každých 30 minut naplánuje událost \texttt{prichodDoStanice} pro určitý počet nových pasažérů určených nastavením "Hustota lidí".
+    \item \texttt{void spawniCastSouprav()}: Jak již bylo řečeno, tato metoda je volána při zpracování událost \texttt{spawnSouprav}. Tato metoda pro každou linku vytvoří nový pár souprav (každá jede z jiné konečné stanice).
+    \item \texttt{void spocitej()}: Tato metoda se stará o vybírání událostí z kalendáře a volá jejich zpracování, díky tomu aktualizuje proměnnou \texttt{cas}. Také každých \texttt{int SPAWN\_LIDI\_MEZICAS = 30} volá metodu \texttt{void spawniOstatniPasazery()}. Všechno probíhá ve while loopu, dokud není kalendář prázný nebo hlavní pasažér nedorazil do cíle. Po skončení while loopu zavolá metodu \texttt{void finished(float vysledek)} třídy \texttt{MainGUI}.
 \end{itemize}
 
 \subsection{Ostatní třídy}
 \subsubsection{Třída \texttt{MainGUI}}
-Tato třída obsahuje logiku celého uživatelského rozhraní a podle toho aktualizuje nastavení modelu. Dále se stará o simulaci více instancí třídy \texttt{Model} najednou. Jak již bylo řečeno, aby výsledky simulace byly přesnější, provádí se více simulací stejného výpočtu, z důvodů náhodného generování ostatních pasažérů.
+Tato třída obsahuje logiku celého uživatelského rozhraní a podle toho aktualizuje nastavení modelu. Dále se stará o simulaci více instancí třídy \texttt{Model} najednou. Jak již bylo řečeno, aby výsledky simulace byly přesnější, provádí se více simulací při stejném nastavení, z důvodů náhodného generování ostatních pasažérů.
 
-Počet celkových simulací je určen konstantou \texttt{int POCET\_MODELU\_CELKEM} a konstanta \texttt{int POCET\_MODELU\_PAR} určuje, kolik simulací beží paralelně. V základním nastavení je  \texttt{int POCET\_MODELU\_CELKEM = 16} a \texttt{int POCET\_MODELU\_PAR = 4}. Volání simulací probíhá tak, že v jednu chvíli simuluje \texttt{int POCET\_MODELU\_PAR} modelů najednou (každý v jiném vlákně). Počká se, dokud všechny z \texttt{int POCET\_MODELU\_PAR} nejsou dokonečné, a poté se volá další série. O toto se starají metody \texttt{void spustSeriiVypoctu()} a již výše zmíněná \texttt{void finished(int vysledek)}. Tyto konstanty lze samozřejmě libovolně měnit, akorát je potřeba dbát na jejich dopad, co se týče doby výpočtu. A zřejmě hodnota \texttt{int POCET\_MODELU\_PAR} musí dělit hodnotu \texttt{int POCET\_MODELU\_CELKEM}.
+Počet celkových simulací je určen konstantou \texttt{int POCET\_MODELU\_CELKEM} a konstanta \texttt{int POCET\_MODELU\_PAR} určuje, kolik simulací beží paralelně. V základním nastavení je  \texttt{int POCET\_MODELU\_CELKEM = 16} a \texttt{int POCET\_MODELU\_PAR = 4}. Volání simulací probíhá tak, že v jednu chvíli se simuluje \texttt{int POCET\_MODELU\_PAR} modelů najednou (každý v jiném vlákně). Počká se, až všechny z \texttt{int POCET\_MODELU\_PAR} nejsou dokonečné, a poté se volá další série. O toto se starají metody \texttt{void spustSeriiVypoctu()} a již výše zmíněná \texttt{void finished(float vysledek)}. Tyto konstanty lze samozřejmě libovolně měnit, akorát je potřeba dbát na jejich dopad, co se týče doby výpočtu. Zřejmě hodnota \texttt{int POCET\_MODELU\_PAR} musí dělit hodnotu \texttt{int POCET\_MODELU\_CELKEM}.
 
 \subsubsection{Třídy \texttt{Nastaveni} a \texttt{NastaveniLinky}}
 Třída \texttt{Nastaveni} v sobě obsahuje seznam tříd \texttt{NastaveniLinky}. Samotná třída \texttt{Nastaveni} obsahuje údaje o nastavení společném pro celý model, naopak třída \texttt{NastaveniLinky} obsahuje pro každou linku její speciální nastavení určené uživatelem.
 
 \subsubsection{Třida \texttt{Stanice}}
-Tato třída obsahuje informace o dané stanici a jejím okolí například její název, kilometr, na kterém se nachází.
+Tato třída obsahuje informace o dané stanici a jejím okolí. Například její název, kilometr, na kterém se nachází.
 
 Důležité promměné:
 \begin{itemize}
@@ -197,7 +197,7 @@ Důležité metody:
 \end{itemize}
 
 \subsubsection{Třida \texttt{SeznamStanic}}
-Tato třída obsahuje seznam stanic pro model, ale také i speciální seznamy jako seznam konečných stanic. Je to taková pomocná třída, která obsahuje informace o všech stanicích metra.
+Tato třída obsahuje seznam stanic pro model, ale také i speciální seznamy, jako seznam konečných stanic. Je to taková pomocná třída, která obsahuje informace o všech stanicích metra.
 
 \subsubsection{Třida \texttt{StaniceLoader}}
 Tato třída slouží jako parser souboru \texttt{stanice.txt} a vytváří z něj seznam stanic, který se poté ukládá do třídy \texttt{SeznamStanic}. Zde se nachází konstanta \texttt{int DOBA\_PRESTUPU}, která je základně nastavena na hodnotu 2.
@@ -208,12 +208,13 @@ Tato třída je vytvořena pro uložení více údajů v itemu třídy \texttt{C
 \section{Výsledky simulací}
 Výsledky simulací jsou po zadaní správných parametrů velice blízké realitě. 
 
-Například při měření doby cesty ze stanice Českomoravská do stanice Křižikova v čase příchodu nastaveném na 500 min je doba cesta spočítána na 7,4 minuty. Což odpovídá reálné hodnotě ze stránky \url{https://jizdnirady.idnes.cz}, ve které cesta trvá zhruba 5-6 minut, a to se nepočítá čekání ve stanici na metro.
+Například při měření doby cesty ze stanice Českomoravská do stanice Křižíkova v čase příchodu nastaveném na 500 min, je doba cesta spočítána na 7,4 minuty. Což odpovídá reálné hodnotě ze stránky \url{https://jizdnirady.idnes.cz}, dle které cesta trvá zhruba 5-6 minut, a to se nepočítá čekání ve stanici na soupravu metra.
 
 Nebo cesta ze stanice Malostranská do stanice Hloubětín by měla trvat podle simulace 29,9 minut. A dle IDOSu má trvat 29 minut.
 \section{Závěr}
-Výsledky simulací někdy výrazně se liší kvůli náhodnému generování lidí, také kvůli tomu, že se například nebere v potaz různé změny počtu souprav, jejich rychlosti v různých částech dne.
-Na druhou stranu, pokud jsou správně navrženy vstupní hodnoty, tak výsledky simulací odpovídají realitě.\nocite{*}
+Výsledky simulací se někdy výrazně liší kvůli náhodnému generování lidí. Dále kvůli tomu, že se například neberou v potaz různé změny počtu souprav, jejich rychlosti v různých částech dne.
+Na druhou stranu, pokud jsou správně navrženy vstupní hodnoty, tak výsledky simulací odpovídají realitě.
 \section{Zdroje}
+\nocite{*}
 \printbibliography[heading=none]
 \end{document}

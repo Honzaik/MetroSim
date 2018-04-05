@@ -48,7 +48,7 @@ C, Letňany, 22.4, 1
 A, Nemocnice Motol, 0, 1
 A, Petřiny, 1.5
 A, Nádraží Veleslavín, 2.7
-A, Bořislavska, 3.8
+A, Bořislavka, 3.8
 A, Dejvická, 6
 A, Hradčanská, 6.8
 A, Malostranská, 7.6

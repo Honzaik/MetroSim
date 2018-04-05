@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MetroSim.exe" size="142320">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MetroSim.exe" size="141312">
       <assemblyIdentity name="MetroSim" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>lVdZiTngCNa2AHYLw5akEiY8HuHmwjTfu39EFkvIcuU=</dsig:DigestValue>
+        <dsig:DigestValue>NotUpp/ZM2h99lmf8KiJNN2ac1Z+gqG/lJ2zzxTv7DM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

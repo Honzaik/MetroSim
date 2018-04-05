@@ -25,19 +25,9 @@ namespace MetroSim
 
         public Model(MainGUI gui, string id)
         {
-            this.rand = new Random(this.GetHashCode()); //potřebuju random seed pro každý thread
+            this.rand = new Random(this.GetHashCode()+Environment.TickCount); //potřebuju random seed pro každý thread
             this.gui = gui;
             this.id = id;
-            spawnerSouprav = new SpawnerSouprav(this, "spawner");
-            seznamStanic = new SeznamStanic(StaniceLoader.nactiStanice(settingsPath));
-        }
-
-        public Model(MainGUI gui, string id, string settingsPath)
-        {
-            this.rand = new Random(this.GetHashCode());
-            this.gui = gui;
-            this.id = id;
-            this.settingsPath = settingsPath;
             spawnerSouprav = new SpawnerSouprav(this, "spawner");
             seznamStanic = new SeznamStanic(StaniceLoader.nactiStanice(settingsPath));
         }
